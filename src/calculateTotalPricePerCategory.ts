@@ -1,5 +1,6 @@
 import extractProductCategories from "./utils/extractProductCategories";
 import { Product, ProductCategory } from "./types";
+import calculateCategoryPrice from "./utils/calculateCategoryPrice";
 
 export default function calculateTotalPricePerCategory(
   productList: Product[]
@@ -9,29 +10,8 @@ export default function calculateTotalPricePerCategory(
 
   // 2. Calculate Total Price Per Category
   const totalPricePerCategory = Object.keys(categories).reduce(
-    (acc, category) => {
-      const totalPrice = productList.reduce((acc, product) => {
-        if (product.category === category) {
-          let discount = 0;
-          if (product.quantity > 10) {
-            // 10% discount if we buy more than 10
-            discount = product.price.amount * 0.1 * product.quantity;
-          } else if (product.quantity > 5) {
-            // 5% discount if we buy more than 5
-            discount = product.price.amount * 0.05 * product.quantity;
-          } else if (product.quantity > 1) {
-            // 0% discount if we buy more than 1
-            discount = 0;
-          }
-          return (
-            acc +
-            product.price.amount * (1 + 0.19) * product.quantity -
-            discount * (1 + 0.19)
-          );
-        } else {
-          return acc;
-        }
-      }, 0);
+    (acc, category: ProductCategory) => {
+      const totalPrice = calculateCategoryPrice(productList, category);
 
       return {
         ...acc,
