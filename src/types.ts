@@ -37,12 +37,18 @@ export class Product {
 // Don’t implement any stricter validation rules on input parameters than implemented by the parent class.
 // Apply at the least the same rules to all output parameters as applied by the parent class.
 
-// GIFT PRODUCT cannot be used in place of Product
+// GIFT PRODUCT can now be used everywhere where PRODUCT is used
 export class GiftProduct extends Product {
-  private isTaxable = true;
+  private isTaxable = false;
+
   calculateTotalPriceWithTax(taxRate: number): number {
-    // violation of LSP
-    throw new Error("Gift products are not taxable");
+    // Rather than throw an error, just ignore the tax for gift products
+    if (this.isTaxable) {
+      return super.calculateTotalPriceWithTax(taxRate);
+    } else {
+      // If the product is not taxable, return the total price without tax
+      return this.calculateTotalPrice();
+    }
   }
 }
 
