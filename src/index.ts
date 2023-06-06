@@ -1,6 +1,4 @@
-function calculateTotalPrice(amount: number, tax: number): number {
-  // 1. Calculate Net Price
-  // 2. Apply The Tax
+import { calculateTotalPricePerCategory } from "./calculateTotalPricePerCategory";
+import list from "./productList";
 
-  return amount + amount * tax;
-}
+console.info(JSON.stringify(calculateTotalPricePerCategory(list), null, 2));

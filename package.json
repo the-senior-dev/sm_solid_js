@@ -1,0 +1,22 @@
+{
+  "name": "sm_solid_js",
+  "version": "1.0.0",
+  "description": "1. **S**ingle Responsability Principle 2. **O**pen/Closed Principle 3. **L**iskow Substitution Principle 4. **I**nterface Segregation 5. **D**ependency Inversion Principle",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/the-senior-dev/sm_solid_js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/the-senior-dev/sm_solid_js/issues"
+  },
+  "homepage": "https://github.com/the-senior-dev/sm_solid_js#readme",
+  "devDependencies": {
+    "ts-node": "^10.9.1"
+  }
+}

@@ -10,6 +10,14 @@
 
 1. [ ] Apply the **Single Responsability Principle** to split the code in `index.ts` into modules that will most likely evolve independentlty.
 
+## Setup
+
+1. Install dependencies
+
+```
+npm install
+```
+
 ## Walkthrough:
 
 1. [ ] Apply the **Single Responsability Principle** to split the code in `index.ts` into modules that will most likely evolve independentlty.
