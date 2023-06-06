@@ -4,35 +4,24 @@ import extractProductCategories from "../utils/extractProductCategories";
 describe("extractProductCategories", () => {
   test("returns an object with unique categories", () => {
     const productList: Product[] = [
-      {
-        id: 1,
-        name: "Product 1",
-        category: ProductCategory.FOOD,
-        quantity: 1,
-        price: { amount: 10, currency: "USD" },
-      },
-      {
-        id: 2,
-        name: "Product 2",
-        category: ProductCategory.DRINK,
-        quantity: 2,
-        price: { amount: 5, currency: "USD" },
-      },
-      {
-        id: 3,
-        name: "Product 3",
-        category: ProductCategory.DRINK,
-        quantity: 3,
-        price: { amount: 7, currency: "USD" },
-      },
-      {
-        id: 4,
-        name: "Product 4",
-        category: ProductCategory.ELECTRONICS,
-        quantity: 4,
-        price: { amount: 100, currency: "USD" },
-      },
+      new Product(1, "Product 1", ProductCategory.FOOD, 1, {
+        amount: 10,
+        currency: "USD",
+      }),
+      new Product(2, "Product 2", ProductCategory.DRINK, 2, {
+        amount: 5,
+        currency: "USD",
+      }),
+      new Product(3, "Product 3", ProductCategory.DRINK, 3, {
+        amount: 7,
+        currency: "USD",
+      }),
+      new Product(4, "Product 4", ProductCategory.ELECTRONICS, 4, {
+        amount: 100,
+        currency: "USD",
+      }),
     ];
+
     const expected: Partial<Record<ProductCategory, number>> = {
       [ProductCategory.FOOD]: 0,
       [ProductCategory.DRINK]: 0,

@@ -1,106 +1,46 @@
 import { Product, ProductCategory } from "./types";
 
 const list: Product[] = [
-  {
-    id: 1,
-    name: "Milk",
-    price: {
-      amount: 1.07,
-      currency: "EUR",
-    },
-    category: ProductCategory.FOOD,
-    quantity: 10,
-  },
-  {
-    id: 2,
-    name: "Bread",
-    price: {
-      amount: 2.5,
-      currency: "EUR",
-    },
-    category: ProductCategory.FOOD,
-    quantity: 5,
-  },
-  {
-    id: 3,
-    name: "Apples",
-    price: {
-      amount: 0.5,
-      currency: "EUR",
-    },
-    category: ProductCategory.FOOD,
-    quantity: 8,
-  },
-  {
-    id: 4,
-    name: "Toothpaste",
-    price: {
-      amount: 3.99,
-      currency: "EUR",
-    },
-    category: ProductCategory.BEAUTY,
-    quantity: 3,
-  },
-  {
-    id: 5,
-    name: "Shampoo",
-    price: {
-      amount: 5.99,
-      currency: "EUR",
-    },
-    category: ProductCategory.BEAUTY,
-    quantity: 2,
-  },
-  {
-    id: 6,
-    name: "T-shirt",
-    price: {
-      amount: 9.99,
-      currency: "EUR",
-    },
-    category: ProductCategory.CLOTHING,
-    quantity: 7,
-  },
-  {
-    id: 7,
-    name: "Jeans",
-    price: {
-      amount: 39.99,
-      currency: "EUR",
-    },
-    category: ProductCategory.CLOTHING,
-    quantity: 4,
-  },
-  {
-    id: 8,
-    name: "Laptop",
-    price: {
-      amount: 999.99,
-      currency: "EUR",
-    },
-    category: ProductCategory.ELECTRONICS,
-    quantity: 1,
-  },
-  {
-    id: 9,
-    name: "Headphones",
-    price: {
-      amount: 49.99,
-      currency: "EUR",
-    },
-    category: ProductCategory.ELECTRONICS,
-    quantity: 6,
-  },
-  {
-    id: 10,
-    name: "Book",
-    price: {
-      amount: 14.99,
-      currency: "EUR",
-    },
-    category: ProductCategory.OTHER,
-    quantity: 12,
-  },
+  new Product(1, "Milk", ProductCategory.FOOD, 10, {
+    amount: 1.07,
+    currency: "EUR",
+  }),
+  new Product(2, "Bread", ProductCategory.FOOD, 5, {
+    amount: 2.5,
+    currency: "EUR",
+  }),
+  new Product(3, "Apples", ProductCategory.FOOD, 8, {
+    amount: 0.5,
+    currency: "EUR",
+  }),
+  new Product(4, "Toothpaste", ProductCategory.BEAUTY, 3, {
+    amount: 3.99,
+    currency: "EUR",
+  }),
+  new Product(5, "Shampoo", ProductCategory.BEAUTY, 2, {
+    amount: 5.99,
+    currency: "EUR",
+  }),
+  new Product(6, "T-shirt", ProductCategory.CLOTHING, 7, {
+    amount: 9.99,
+    currency: "EUR",
+  }),
+  new Product(7, "Jeans", ProductCategory.CLOTHING, 4, {
+    amount: 39.99,
+    currency: "EUR",
+  }),
+  new Product(8, "Laptop", ProductCategory.ELECTRONICS, 1, {
+    amount: 999.99,
+    currency: "EUR",
+  }),
+  new Product(9, "Headphones", ProductCategory.ELECTRONICS, 6, {
+    amount: 49.99,
+    currency: "EUR",
+  }),
+  new Product(10, "Book", ProductCategory.OTHER, 12, {
+    amount: 14.99,
+    currency: "EUR",
+  }),
 ];
 
 export default list;
