@@ -1,19 +1,11 @@
+import extractProductCategories from "./utils/extractProductCategories";
 import { Product, ProductCategory } from "./types";
 
 export default function calculateTotalPricePerCategory(
   productList: Product[]
 ): Partial<Record<ProductCategory, number>> {
   // 1. Extract Categories
-  const categories = productList.reduce((acc, product) => {
-    if (product.category in acc) {
-      return acc;
-    } else {
-      return {
-        ...acc,
-        [product.category]: product.category,
-      };
-    }
-  }, {});
+  const categories = extractProductCategories(productList);
 
   // 2. Calculate Total Price Per Category
   const totalPricePerCategory = Object.keys(categories).reduce(
