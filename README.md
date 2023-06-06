@@ -9,6 +9,7 @@
 ## Challenges:
 
 1. [ ] Apply the **Single Responsability Principle** to split the code in `index.ts` into modules that will most likely evolve independentlty.
+2. [ ] Apply the **O**pen/Closed Principle to allow developers to add new `discout` rules without modifing the calculate discount function.
 
 ## Setup
 
