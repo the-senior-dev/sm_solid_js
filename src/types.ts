@@ -1,54 +1,16 @@
-export class Product {
-  public id: number;
-  public name: string;
-  public category: ProductCategory;
-  public quantity: number;
-  public price: {
-    amount: number;
-    currency: string;
-  };
+interface TaxStrategy {
+  calculateTax(amount: number): number;
+}
 
-  constructor(
-    id: number,
-    name: string,
-    category: ProductCategory,
-    quantity: number,
-    price: { amount: number; currency: string }
-  ) {
-    this.id = id;
-    this.name = name;
-    this.category = category;
-    this.quantity = quantity;
-    this.price = price;
-  }
-
-  calculateTotalPrice(): number {
-    return this.price.amount * this.quantity;
-  }
-
-  calculateTotalPriceWithTax(taxRate: number): number {
-    return this.calculateTotalPrice() * (1 + taxRate);
+class StandardTaxStrategy implements TaxStrategy {
+  calculateTax(amount: number): number {
+    return amount * 0.2; // 20% tax
   }
 }
 
-// This requires all subclasses to behave in the same way as the parent class.
-// To achieve that, your subclasses need to follow these rules:
-
-// Don’t implement any stricter validation rules on input parameters than implemented by the parent class.
-// Apply at the least the same rules to all output parameters as applied by the parent class.
-
-// GIFT PRODUCT can now be used everywhere where PRODUCT is used
-export class GiftProduct extends Product {
-  private isTaxable = false;
-
-  calculateTotalPriceWithTax(taxRate: number): number {
-    // Rather than throw an error, just ignore the tax for gift products
-    if (this.isTaxable) {
-      return super.calculateTotalPriceWithTax(taxRate);
-    } else {
-      // If the product is not taxable, return the total price without tax
-      return this.calculateTotalPrice();
-    }
+class NonTaxableStrategy implements TaxStrategy {
+  calculateTax(amount: number): number {
+    return 0;
   }
 }
 
@@ -60,3 +22,59 @@ export enum ProductCategory {
   CLOTHING = "CLOTHING",
   OTHER = "OTHER",
 }
+
+export class ProductBase {
+  public id: number;
+  public name: string;
+  public category: ProductCategory;
+  public quantity: number;
+  public price: {
+    amount: number;
+    currency: string;
+  };
+  private taxStrategy: TaxStrategy;
+
+  constructor(
+    id: number,
+    name: string,
+    category: ProductCategory,
+    quantity: number,
+    price: { amount: number; currency: string },
+    taxStrategy: TaxStrategy
+  ) {
+    this.id = id;
+    this.name = name;
+    this.category = category;
+    this.quantity = quantity;
+    this.price = price;
+    this.taxStrategy = taxStrategy;
+  }
+
+  calculateTotalPrice(): number {
+    return this.price.amount * this.quantity;
+  }
+
+  calculateTotalPriceWithTax(): number {
+    const tax = this.taxStrategy.calculateTax(this.calculateTotalPrice());
+    return this.calculateTotalPrice() + tax;
+  }
+}
+
+// Usage
+const regularProduct = new ProductBase(
+  1,
+  "Regular Product",
+  ProductCategory.FOOD,
+  2,
+  { amount: 100, currency: "USD" },
+  new StandardTaxStrategy()
+);
+
+const giftProduct = new ProductBase(
+  2,
+  "Gift Product",
+  ProductCategory.FOOD,
+  2,
+  { amount: 100, currency: "USD" },
+  new NonTaxableStrategy()
+);
