@@ -1,6 +1,6 @@
 import { Product, ProductCategory } from "./types";
 
-export function calculateTotalPricePerCategory(
+export default function calculateTotalPricePerCategory(
   productList: Product[]
 ): Partial<Record<ProductCategory, number>> {
   // 1. Extract Categories
@@ -34,7 +34,7 @@ export function calculateTotalPricePerCategory(
           return (
             acc +
             product.price.amount * (1 + 0.19) * product.quantity -
-            discount
+            discount * (1 + 0.19)
           );
         } else {
           return acc;
