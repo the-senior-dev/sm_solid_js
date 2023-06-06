@@ -18,6 +18,26 @@
 npm install
 ```
 
+2. Run tests
+
+```
+npm test
+```
+
+You should see this in your terminal:
+
+![test-results](/docs/test_results.png)
+
+3. Run the program:
+
+```
+npm start
+```
+
+You should see this in your terminal:
+
+![program-results](/docs/program_results.png)
+
 ## Walkthrough:
 
 1. [ ] Apply the **Single Responsability Principle** to split the code in `index.ts` into modules that will most likely evolve independentlty.
