@@ -18,5 +18,8 @@
   "homepage": "https://github.com/the-senior-dev/sm_solid_js#readme",
   "devDependencies": {
     "ts-node": "^10.9.1"
+  },
+  "dependencies": {
+    "jest": "^29.5.0"
   }
 }
