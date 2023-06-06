@@ -8,7 +8,7 @@
 
 ## Challenges:
 
-1. [ ] Apply **ingle Responsability Principle** to split the code in `index.ts` into modules that will most likely evolve independentlty.
+1. [ ] Apply the **Single Responsability Principle** to split the code in `index.ts` into modules that will most likely evolve independentlty.
 
 - Identify the possible **sources of change** in the code
   - changes in the input shape
