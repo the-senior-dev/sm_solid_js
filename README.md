@@ -597,8 +597,88 @@ export default interface ProductInterface {
 }
 ```
 
+Our concrete classes: `Product` and `CartItem` will depend on the `ProductCategory` abstraction but not on each other, like this:
+
+```typescript
+import ProductInterface from "./ProductInterface";
+
+export class CartItem {
+  public product: ProductInterface;
+  public quantity: number;
+  constructor(product: ProductInterface, quantity: number) {
+    this.product = product;
+    this.quantity = quantity;
+  }
+
+  calculateTotalPrice(): number {
+    return this.product.price.amount * this.quantity;
+  }
+
+  calculateTotalPriceWithTax(taxRate: number): number {
+    return this.calculateTotalPrice() * (1 + taxRate);
+  }
+}
+```
+
+And:
+
+```typescript
+import { ProductCategory } from "../types";
+import ProductInterface from "./ProductInterface";
+
+export class Product implements ProductInterface {
+  public id: number;
+  public name: string;
+  public category: ProductCategory;
+  private isOnSale: boolean = true;
+  public price: {
+    amount: number;
+    currency: string;
+  };
+
+  constructor(
+    id: number,
+    name: string,
+    category: ProductCategory,
+    price: { amount: number; currency: string }
+  ) {
+    this.id = id;
+    this.name = name;
+    this.category = category;
+    this.price = price;
+  }
+}
+```
+
 ![inverted-dependecy](/docs/task_5/inverted_dependency.png)
 
+#### BONUS
+
+We can go even further and apply the **Dependency Inversion Principle** to the `ProductInterface` and eliminate the dependency with the `ProductCategory`.
+
+How would you do that?
+
+<details closed>
+<summary>CLICK ME! - BONUS SOLUTIOM</summary>
+
+We can provie the type of the category at runtime by using `Generics`. This is also called `DependencyInjection` and can be applied to function, classes and modules.
+
+```typescript
+interface AbstractProductInterface<ProdCat> {
+  id: number;
+  name: string;
+  category: ProdCat;
+  price: {
+    amount: number;
+    currency: string;
+  };
+}
+
+// Concrete Version of the AbstractProductInterface using the standard ProductCategory
+export default ProductInterface = AbstractProductInterface<ProductCategory>;
+```
+
+</details>
 </details>
 
 ---
