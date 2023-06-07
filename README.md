@@ -69,7 +69,9 @@ You should see this in your terminal:
 <details closed>
 <summary>CLICK ME! - TASK 1 - Single Responsibility Principle</summary>
 
-1. [ ] Apply the **Single Responsability Principle** to split the code in [src/calculateTotalPricePerCategory.ts](/src/calculateTotalPricePerCategory.ts) into `modules` that will evolve independently.
+#### TASK 1 - Single Responsibility Principle
+
+Apply the **Single Responsability Principle** to split the code in [src/calculateTotalPricePerCategory.ts](/src/calculateTotalPricePerCategory.ts) into `modules` that will evolve independently.
 
 > "A class should have only one reason to change" - Clean Code
 
@@ -93,11 +95,9 @@ To minimize the changes needed in the code to accommodate changes in requirement
 
 Try to do this yourself to the best of your ability.
 
-#### SOLUTION
+### Solution:
 
-```bash
-git checkout feature/single-responsability-principle
-```
+- **🧪 Solution Code: `git checkout feature/single-responsability-principle`**
 
 ![single-resp-module-structure](/docs/task_1/folder_structure.png)
 
