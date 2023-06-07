@@ -110,6 +110,143 @@ Advantages of the new structure:
 
 ---
 
+<details closed>
+<summary>CLICK ME! - TASK 2 - Open/Closed Principle</summary>
+
+#### TASK 2 - Open/Closed Principle
+
+Before we start, checkout on the solution branch from the previous exercise or follow on your own code if you ended up with a similar structure:
+
+```bash
+git checkout task_two_open_closed_start
+```
+
+###### Open/Closed Principle
+
+> > "Software entities (classes, modules, functions, and so on) should be **open for extension, but closed for modification**" - Clean Code
+
+In the case of our original discount function:
+
+```typescript
+import { Product } from "../types";
+
+// SOURCE OF CHANGE: We want to add a new discount rule
+export default function calculateDiscout(product: Product) {
+  let discount = 0;
+  if (product.quantity > 10) {
+    // 10% discount if we buy more than 10
+    discount = product.price.amount * 0.1 * product.quantity;
+  } else if (product.quantity > 5) {
+    // 5% discount if we buy more than 5
+    discount = product.price.amount * 0.05 * product.quantity;
+  } else if (product.quantity > 1) {
+    // 0% discount if we buy more than 1
+    discount = 0;
+  }
+  return discount;
+}
+```
+
+##### We want to find a way to be able to add new discount rules without having to change the code of the `calculateDiscout` function.
+
+🧠 Try and think about this for a couple of minutes.
+
+Hmmm...
+
+🙋🏽 What if we can provide the rules as an `array` of `objects` containing the `quantity` and the `discount` amount?
+
+We can afterward use a `for` loop to find the rule that has to be applied depending on the `quantity`.
+
+To do so, in [calculateDiscount.ts](src/priceModule/calculateDiscount.ts) :
+
+1. Add an `interface` for `DiscountRules`
+
+```typescript
+interface DiscountRule {
+  quantity: number;
+  discount: number;
+}
+```
+
+2. Extract the `rules` to the `config` file in this `module`
+
+```typescript
+export const DISCOUNT_RULES = [
+  {
+    quantity: 10,
+    discount: 0.1,
+  },
+  {
+    quantity: 5,
+    discount: 0.05,
+  },
+  {
+    quantity: 1,
+    discount: 0,
+  },
+];
+```
+
+3. Update the code to use the `rules` array
+
+```typescript
+function calculateDiscountBasedOnRules(
+  product: Product,
+  rules: DiscountRule[]
+) {
+  // Sort rules by quantity in descending order
+  const sortedRules = [...rules].sort((a, b) => b.quantity - a.quantity);
+
+  for (let rule of sortedRules) {
+    if (product.quantity >= rule.quantity) {
+      // Apply the first matching rule
+      return product.price.amount * rule.discount * product.quantity;
+    }
+  }
+  return discount;
+
+  // No rule matched, return 0
+  return 0;
+}
+```
+
+4. Apply the rules array to the exported version of the function so our clients(whoever is using this function) are not affected
+
+```typescript
+export default function calculateDiscount(product: Product) {
+  return calculateDiscountBasedOnRules(product, DISCOUNT_RULES);
+}
+```
+
+###### We can now extend the `calculateDiscount` behaivour without changing the `caculateDiscoutBasedOnRules` function - so we can say the function is `Open for extension` and at the same time `Closed for modification`.
+
+### Solution:
+
+- **🧪 Solution Code: `git checkout open-closed-principle`**
+
+</details>
+
+---
+
+<details closed>
+<summary>CLICK ME! - TASK 3 - Liskov Substitution</summary>
+
+#### TASK 3 - Liskov Substitution
+
+> "...an object (such as a class) may be replaced by a sub-object (such as a class that extends the first class) without breaking the program"
+
+To illustrate this we will use `classes` for our products and move the relevant logic to class methods.
+
+Before we start, checkout on the following branch:
+
+```bash
+git checkout feature/liskow-substitution-principle
+```
+
+</details>
+
+---
+
 ![software-mastery](/docs/software_mastery.png)
 
 ##### To get additional feedback and support on this **Action Item**, you can:
