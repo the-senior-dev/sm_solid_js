@@ -118,7 +118,7 @@ Advantages of the new structure:
 Before we start, checkout on the solution branch from the previous exercise or follow on your own code if you ended up with a similar structure:
 
 ```bash
-git checkout task-two-start
+git checkout task_two_open_closed_start
 ```
 
 ###### Open/Closed Principle
@@ -157,7 +157,7 @@ Hmmm...
 
 We can afterward use a `for` loop to find the rule that has to be applied depending on the `quantity`.
 
-To do so we:
+To do so, in [calculateDiscount.ts](src/priceModule/calculateDiscount.ts) :
 
 1. Add an `interface` for `DiscountRules`
 
@@ -218,7 +218,7 @@ export default function calculateDiscount(product: Product) {
 }
 ```
 
-##### We can now extend the `calculateDiscount` behaivour without changing the `caculateDiscoutBasedOnRules` function - so we can say the function is `Open for extension` and at the same time `Closed for modification`.
+###### We can now extend the `calculateDiscount` behaivour without changing the `caculateDiscoutBasedOnRules` function - so we can say the function is `Open for extension` and at the same time `Closed for modification`.
 
 ### Solution:
 
