@@ -1,5 +1,5 @@
 import { Product } from "../types";
-import rules from "../config/discountRules";
+import { DISCOUNT_RULES } from "./config";
 
 interface DiscountRule {
   quantity: number;
@@ -27,5 +27,5 @@ function calculateDiscountBasedOnRules(
 
 // we use a higher-order function to pass the rules array to the calculateDiscount function
 export default function calculateDiscount(product: Product) {
-  return calculateDiscountBasedOnRules(product, rules);
+  return calculateDiscountBasedOnRules(product, DISCOUNT_RULES);
 }

@@ -1,4 +1,4 @@
-export default [
+export const DISCOUNT_RULES = [
   {
     quantity: 10,
     discount: 0.1,
@@ -12,3 +12,5 @@ export default [
     discount: 0,
   },
 ];
+
+export const TAX_RATE = 0.19;
