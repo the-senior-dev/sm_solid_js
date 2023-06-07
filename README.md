@@ -66,6 +66,9 @@ You should see this in your terminal:
 
 ## Walkthrough:
 
+<details closed>
+<summary>CLICK ME! - TASK 1 - Single Responsibility Principle</summary>
+
 1. [ ] Apply the **Single Responsability Principle** to split the code in [src/calculateTotalPricePerCategory.ts](/src/calculateTotalPricePerCategory.ts) into `modules` that will evolve independently.
 
 > "A class should have only one reason to change" - Clean Code
@@ -82,7 +85,7 @@ In our case, after reading the [calculateTotalPricePerCategory.ts](/src/calculat
 
 - the way we `extract categories` from the product list might change because the product list shape might change
 
-- the way `discouts` are calculated for a product might change due to business requirements
+- the way `discounts` are calculated for a product might change due to business requirements
 
 - the way `tax` is applied might change and the tax rate might change also
 
@@ -103,10 +106,14 @@ Advantages of the new structure:
 - clear module and function boundaries
 - the possibility of testing each function individually
 
+</details>
+
+---
+
 ![software-mastery](/docs/software_mastery.png)
 
 ##### To get additional feedback and support on this **Action Item**, you can:
 
-👉 Attend one of our Weekly Coaching Sessions to receive feedback and advice on specific challenges. [RSVP to an upcoming session here](https://community.theseniordev.com/c/coaching-calls/)!
+👉 Attend one of our **Weekly Coaching Sessions** to receive feedback and advice on specific challenges. **[RSVP to an upcoming session here](https://community.theseniordev.com/c/coaching-calls/)**!
 
 👉 Share a question or challenge in the **[Code Review Space](https://community.theseniordev.com/c/codereview/)** to receive insights and suggestions from the coaches!
