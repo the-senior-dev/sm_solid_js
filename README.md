@@ -652,6 +652,10 @@ export class Product implements ProductInterface {
 
 ![inverted-dependecy](/docs/task_5/inverted_dependency.png)
 
+#### TODOS
+
+- implement the solution above and make sure the code works corecctly by running the tests
+
 #### BONUS
 
 We can go even further and apply the **Dependency Inversion Principle** to the `ProductInterface` and eliminate the dependency with the `ProductCategory`.
@@ -679,6 +683,7 @@ export default ProductInterface = AbstractProductInterface<ProductCategory>;
 ```
 
 </details>
+
 </details>
 
 ---
