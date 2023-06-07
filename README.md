@@ -431,6 +431,108 @@ You can implement any of the solutions above. We recommend you try this in any c
 
 #### TASK 4 - Interface Segregation
 
+> "Clients should not be forced to depend upon interfaces that they do not use." - Clean Code
+
+To make this principle simple you can say:
+
+> "Aa class should not be forced to implement interfaces it doesn't use. Instead of one big interface, many small interfaces are preferred based on groups of methods, each one serving one submodule."
+
+This principle is a bit abstract but we can easily understand it with our `Product` class:
+
+```typescript
+export class Product {
+  public id: number;
+  public name: string;
+  public category: ProductCategory;
+  public quantity: number;
+  public price: {
+    amount: number;
+    currency: string;
+  };
+
+  constructor(
+    id: number,
+    name: string,
+    category: ProductCategory,
+    quantity: number,
+    price: { amount: number; currency: string }
+  ) {
+    this.id = id;
+    this.name = name;
+    this.category = category;
+    this.quantity = quantity;
+    this.price = price;
+  }
+
+  ...
+}
+```
+
+Whoever wants information about the `Product` also ends up consuming the `quantiy` property, which is only relevant for certain usecase. If we just want to display a list of products or an individual product, the `quantity` is irelevant.
+
+##### Apllied Interface Segregation Principle
+
+If we apply the `Interface Segregation Principle` we will end up with smaller classes that deal with specific behaivours.
+
+> :bell: **Reminder**: Every class in TypeScript inherently defines an interface. This interface includes all the public members of the class - properties, methods, etc. This makes TypeScript's class mechanics and type system very flexible and powerful, because you can use these implicit interfaces in type annotations just like explicit interfaces. Keep in mind, however, that this only applies to the public side of the class structure. If you have private or protected members in your class, they won't be part of the implicit interface.
+
+Our new `Product` class will only be concerned with information about the product:
+
+```typescript
+import { ProductCategory } from "../types";
+
+export class Product {
+  public id: number;
+  public name: string;
+  public category: ProductCategory;
+  public price: {
+    amount: number;
+    currency: string;
+  };
+
+  constructor(
+    id: number,
+    name: string,
+    category: ProductCategory,
+    price: { amount: number; currency: string }
+  ) {
+    this.id = id;
+    this.name = name;
+    this.category = category;
+    this.price = price;
+  }
+}
+```
+
+And we move all the `quantity` and `price` calculations to the `CartItem` class:
+
+```typescript
+import { Product } from "./Product";
+
+export class CartItem {
+  public product: Product;
+  public quantity: number;
+  constructor(product: Product, quantity: number) {
+    this.product = product;
+    this.quantity = quantity;
+  }
+
+  calculateTotalPrice(): number {
+    return this.product.price.amount * this.quantity;
+  }
+
+  calculateTotalPriceWithTax(taxRate: number): number {
+    return this.calculateTotalPrice() * (1 + taxRate);
+  }
+}
+```
+
+> :bulb: **Note for future**: The `CartItem` class might implement future behaivour like `calculateShippingCosts` without poluting the `ProductInterface`. In this way, the users of these classes get exacttly what they need, not more,nor less.
+
+### Todo:
+
+- simplify the `Product`class even further by extracting the `ProductPrice` into its own separated class.
+
 </details>
 
 ---
