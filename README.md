@@ -228,6 +228,25 @@ export default function calculateDiscount(product: Product) {
 
 ---
 
+<details closed>
+<summary>CLICK ME! - TASK 3 - Liskov Substitution</summary>
+
+#### TASK 3 - Liskov Substitution
+
+> "...an object (such as a class) may be replaced by a sub-object (such as a class that extends the first class) without breaking the program"
+
+To illustrate this we will use `classes` for our products and move the relevant logic to class methods.
+
+Before we start, checkout on the following branch:
+
+```bash
+git checkout feature/liskow-substituion-principle
+```
+
+</details>
+
+---
+
 ![software-mastery](/docs/software_mastery.png)
 
 ##### To get additional feedback and support on this **Action Item**, you can:
