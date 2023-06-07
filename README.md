@@ -95,16 +95,16 @@ To minimize the changes needed in the code to accommodate changes in requirement
 
 Try to do this yourself to the best of your ability.
 
-### Solution:
-
-- **🧪 Solution Code: `git checkout feature/single-responsability-principle`**
-
 ![single-resp-module-structure](/docs/task_1/folder_structure.png)
 
 Advantages of the new structure:
 
 - clear module and function boundaries
 - the possibility of testing each function individually
+
+### Solution:
+
+- **🧪 Solution Code: `git checkout feature/single-responsability-principle`**
 
 </details>
 
