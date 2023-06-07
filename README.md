@@ -243,6 +243,72 @@ Before we start, checkout on the following branch:
 git checkout feature/liskow-substitution-principle
 ```
 
+Head over to [types.ts](/src/types.ts) and checkout our new `classes`:
+
+#### Product Class
+
+```typescript
+export class Product {
+  public id: number;
+  public name: string;
+  public category: ProductCategory;
+  public quantity: number;
+  public price: {
+    amount: number;
+    currency: string;
+  };
+
+  constructor(
+    id: number,
+    name: string,
+    category: ProductCategory,
+    quantity: number,
+    price: { amount: number; currency: string }
+  ) {
+    this.id = id;
+    this.name = name;
+    this.category = category;
+    this.quantity = quantity;
+    this.price = price;
+  }
+
+  calculateTotalPrice(): number {
+    return this.price.amount * this.quantity;
+  }
+
+  calculateTotalPriceWithTax(taxRate: number): number {
+    return this.calculateTotalPrice() * (1 + taxRate);
+  }
+}
+```
+
+And an example of a `class` that inherits from `Product`:
+
+```typescript
+// GIFT PRODUCT cannot be used in place of Product
+export class GiftProduct extends Product {
+  private isTaxable = true;
+  calculateTotalPriceWithTax(taxRate: number): number {
+    // violation of LSP
+    throw new Error("Gift products are not taxable");
+  }
+}
+```
+
+⚠️ Violation of **Liskov Substitution**:
+
+`GiftProduct` cannot be used in the code instead of its parent class(super object) because it will result in errors thrown when the `calculateTotalPriceWithTax` method is called.
+
+To illustrate this we wrote a test in [liskovTest.spec.ts](src/test/liskovTest.spec.ts) that you can run:
+
+```bash
+npm test --t liskovTest
+```
+
+The test will fail, showing a violation of the `LSP`:
+
+TODO - ad an image here []
+
 </details>
 
 ---
