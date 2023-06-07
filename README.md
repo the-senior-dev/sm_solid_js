@@ -102,3 +102,11 @@ Advantages of the new structure:
 
 - clear module and function boundaries
 - the possibility of testing each function individually
+
+![software-mastery](/docs/software_mastery.png)
+
+###### To get additional feedback and support on this **Action Item**, you can:
+
+👉 Attend one of our Weekly Coaching Sessions to receive feedback and advice on specific challenges. RSVP to an upcoming session here!
+
+👉 Share a question or challenge in the Code Review space to receive insights and suggestions from the coaches!
