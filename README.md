@@ -309,7 +309,129 @@ The test will fail, showing a violation of the `LSP`:
 
 TODO - ad an image here []
 
+### Solving the `LSP` violation:
+
+In our case, becasuse we use `TypeScript` we ensure that at least from the shape perspective the children classes will comply with the interface of the parent. However we can stil break `LSP` with behaivour, like exception throwing. To avoid it we need to:
+
+1. Avoid throwing errors in subclases that parent classes do not throw. In this class case we can just return 0 instead:
+
+```typescript
+export class GiftProduct extends Product {
+  private isTaxable = false;
+
+  calculateTotalPriceWithTax(taxRate: number): number {
+    // Rather than throw an error, just ignore the tax for gift products
+    if (this.isTaxable) {
+      return super.calculateTotalPriceWithTax(taxRate);
+    } else {
+      // If the product is not taxable, return the total price without tax
+      return this.calculateTotalPrice();
+    }
+  }
+}
+```
+
+2. Prefer **Composition** over **Inheritance** - this is something frameworks like `React` adopted to avoid problems that come from having long inheritance chains(like the violation of `LSP`).
+
+Instead of inheriting the tax application behaivour, we will add it to our objects at build time:
+
+Our new class will looks something like this:
+
+```typescript
+interface TaxStrategy {
+  calculateTax(amount: number): number;
+}
+
+class StandardTaxStrategy implements TaxStrategy {
+  calculateTax(amount: number): number {
+    return amount * 0.2; // 20% tax
+  }
+}
+
+class NonTaxableStrategy implements TaxStrategy {
+  calculateTax(amount: number): number {
+    return 0;
+  }
+}
+
+export class Product {
+  public id: number;
+  public name: string;
+  public category: ProductCategory;
+  public quantity: number;
+  public price: {
+    amount: number;
+    currency: string;
+  };
+  private taxStrategy: TaxStrategy;
+
+  constructor(
+    id: number,
+    name: string,
+    category: ProductCategory,
+    quantity: number,
+    price: { amount: number; currency: string },
+    taxStrategy: TaxStrategy
+  ) {
+    this.id = id;
+    this.name = name;
+    this.category = category;
+    this.quantity = quantity;
+    this.price = price;
+    this.taxStrategy = taxStrategy;
+  }
+
+  calculateTotalPrice(): number {
+    return this.price.amount * this.quantity;
+  }
+
+  calculateTotalPriceWithTax(): number {
+    const tax = this.taxStrategy.calculateTax(this.calculateTotalPrice());
+    return this.calculateTotalPrice() + tax;
+  }
+}
+
+// Tax Behaivour Comes from Composing the Object rather then being inherited from a parent class
+const regularProduct = new Product(
+  1,
+  "Regular Product",
+  ProductCategory.FOOD,
+  2,
+  { amount: 100, currency: "USD" },
+  new StandardTaxStrategy()
+);
+
+const giftProduct = new Product(
+  2,
+  "Gift Product",
+  ProductCategory.FOOD,
+  2,
+  { amount: 100, currency: "USD" },
+  new NonTaxableStrategy()
+);
+```
+
+You can implement any of the solutions above. We recommend you try this in any codebase you are working with to make sure you fixate the concept.
+
 </details>
+
+---
+
+<details closed>
+<summary>CLICK ME! - TASK 4 - Interface Segregation</summary>
+
+#### TASK 4 - Interface Segregation
+
+<details closed>
+
+---
+
+<details closed>
+<summary>CLICK ME! - TASK 5 - Dependency Inversion</summary>
+
+#### TASK 5 - Dependency Inversion
+
+<details closed>
 
 ---
 
