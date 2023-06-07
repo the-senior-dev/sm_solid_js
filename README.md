@@ -1,14 +1,40 @@
 ### SOLID principles
 
-1. **S**ingle Responsability Principle
-2. **O**pen/Closed Principle
-3. **L**iskow Substitution Principle
-4. **I**nterface Segregation
-5. **D**ependency Inversion Principle
+The SOLID principles help us write code that can be easily extended and maintained.
 
-## Challenges:
+![solid-principles](/docs/solid_principles.png)
 
-1. [ ] Apply the **Single Responsability Principle** to split the code in `index.ts` into modules that will most likely evolve independentlty.
+#### Single Responsability Principle
+
+> "A class should have only **one reason to change**" - Clean Code
+
+#### Open/Closed Principle
+
+> "Software entities (classes, modules, functions, and so on) should be **open for extension, but closed for modification**" - Clean Code
+
+#### Liskow Substitution Principle
+
+> "...an object (such as a class) may be replaced by a sub-object (such as a class that extends the first class) without breaking the program"
+
+#### Interface Segregation
+
+> "Clients should not be forced to depend upon interfaces that they do not use." - Clean Code
+
+#### Dependency Inversion Principle
+
+> "Depend upon abstractions, [not] concretions." - Clean Code
+
+## Tasks:
+
+1. [ ] Apply the **Single Responsability Principle** to split the code in [src/calculateTotalPricePerCategory.ts](/src/calculateTotalPricePerCategory.ts) into `modules` that will evolve independently.
+
+2. [ ] Apply the **Open/Closed Principle** to allow developers to add new `discount` rules without modifying the calculate discount function.
+
+3. [ ] Apply the **O**pen/Closed Principle to allow developers to add new `discount` rules without modifying the calculate discount function.
+
+4. [ ] Apply the **O**pen/Closed Principle to allow developers to add new `discount` rules without modifying the calculate discount function.
+
+5. [ ] Apply the **O**pen/Closed Principle to allow developers to add new `discount` rules without modifying the calculate discount function.
 
 ## Setup
 
@@ -40,10 +66,12 @@ You should see this in your terminal:
 
 ## Walkthrough:
 
-1. [ ] Apply the **Single Responsability Principle** to split the code in `index.ts` into modules that will most likely evolve independentlty.
+1. [ ] Apply the **Single Responsability Principle** to split the code in [src/calculateTotalPricePerCategory.ts](/src/calculateTotalPricePerCategory.ts) into `modules` that will evolve independently.
 
-- Identify the possible **sources of change** in the code
-  - changes in the input shape
-  - changes in the output requirements
-  - changes in the logic(control flow)
-- Split the code accordingly and add well defined interfaces
+> "A class should have only one reason to change" - Clean Code
+
+To do so you need to identify the possible **sources of change** in the code. The most typical are:
+
+- changes in the input shape
+- changes in the output requirements
+- changes in the logic(control flow)
