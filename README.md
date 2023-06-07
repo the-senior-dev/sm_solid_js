@@ -105,8 +105,8 @@ Advantages of the new structure:
 
 ![software-mastery](/docs/software_mastery.png)
 
-###### To get additional feedback and support on this **Action Item**, you can:
+##### To get additional feedback and support on this **Action Item**, you can:
 
-👉 Attend one of our Weekly Coaching Sessions to receive feedback and advice on specific challenges. RSVP to an upcoming session here!
+👉 Attend one of our Weekly Coaching Sessions to receive feedback and advice on specific challenges. [RSVP to an upcoming session here](https://community.theseniordev.com/c/coaching-calls/)!
 
-👉 Share a question or challenge in the Code Review space to receive insights and suggestions from the coaches!
+👉 Share a question or challenge in the **[Code Review Space](https://community.theseniordev.com/c/codereview/)** to receive insights and suggestions from the coaches!
