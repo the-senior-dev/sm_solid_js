@@ -22,6 +22,6 @@ describe("Liskov Substitution Principle", () => {
 
     // LSP Violation: The Two Classes are not substitutable
     expect(() => product.calculateTotalPriceWithTax(taxRate)).not.toThrow(); // This will pass
-    expect(() => giftProduct.calculateTotalPriceWithTax(taxRate)).toThrow(); // This will also pass, but it shows violation of LSP
+    expect(() => giftProduct.calculateTotalPriceWithTax(taxRate)).not.toThrow(); // This will fail, as a violation of LSP
   });
 });
