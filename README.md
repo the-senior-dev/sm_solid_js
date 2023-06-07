@@ -1,4 +1,4 @@
-### SOLID principles
+# Action Item: SOLID principles 💊
 
 The SOLID principles help us write code that can be easily extended and maintained.
 
