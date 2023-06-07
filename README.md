@@ -240,7 +240,7 @@ To illustrate this we will use `classes` for our products and move the relevant 
 Before we start, checkout on the following branch:
 
 ```bash
-git checkout feature/liskow-substituion-principle
+git checkout feature/liskow-substitution-principle
 ```
 
 </details>
