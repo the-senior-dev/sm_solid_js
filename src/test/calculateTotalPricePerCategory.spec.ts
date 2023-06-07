@@ -12,10 +12,13 @@ describe("calculateTotalPricePerCategory", () => {
 
   it("should return correct total price for each category when product quantity is less than 1", () => {
     const productList: Product[] = [
-      new Product(1, "product1", ProductCategory.ELECTRONICS, 0, {
-        amount: 100,
-        currency: "USD",
-      }),
+      {
+        id: 1,
+        name: "product1",
+        category: ProductCategory.ELECTRONICS,
+        price: { amount: 100, currency: "USD" },
+        quantity: 0,
+      },
     ];
 
     const result = calculateTotalPricePerCategory(productList);
@@ -25,10 +28,13 @@ describe("calculateTotalPricePerCategory", () => {
 
   it("should return correct total price for each category when product quantity is between 1 and 5", () => {
     const productList: Product[] = [
-      new Product(2, "product2", ProductCategory.ELECTRONICS, 3, {
-        amount: 100,
-        currency: "USD",
-      }),
+      {
+        id: 2,
+        name: "product2",
+        category: ProductCategory.ELECTRONICS,
+        price: { amount: 100, currency: "USD" },
+        quantity: 3,
+      },
     ];
 
     const result = calculateTotalPricePerCategory(productList);
@@ -38,10 +44,13 @@ describe("calculateTotalPricePerCategory", () => {
 
   it("should return correct total price for each category when product quantity is between 6 and 10", () => {
     const productList: Product[] = [
-      new Product(3, "product3", ProductCategory.ELECTRONICS, 7, {
-        amount: 100,
-        currency: "USD",
-      }),
+      {
+        id: 3,
+        name: "product3",
+        category: ProductCategory.ELECTRONICS,
+        price: { amount: 100, currency: "USD" },
+        quantity: 7,
+      },
     ];
 
     const result = calculateTotalPricePerCategory(productList);
@@ -51,10 +60,13 @@ describe("calculateTotalPricePerCategory", () => {
 
   it("should return correct total price for each category when product quantity is more than 10", () => {
     const productList: Product[] = [
-      new Product(4, "product4", ProductCategory.ELECTRONICS, 15, {
-        amount: 100,
-        currency: "USD",
-      }),
+      {
+        id: 4,
+        name: "product4",
+        category: ProductCategory.ELECTRONICS,
+        price: { amount: 100, currency: "USD" },
+        quantity: 15,
+      },
     ];
 
     const result = calculateTotalPricePerCategory(productList);
