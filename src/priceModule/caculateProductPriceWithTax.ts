@@ -1,6 +1,5 @@
 import { Product } from "../types";
-
-const TAX = 0.19;
+import { TAX_RATE } from "./config";
 
 // SOURCE OF CHANGE: When the Tax Logic Changes
 export default function caculateProductPriceWithTax(
@@ -8,6 +7,7 @@ export default function caculateProductPriceWithTax(
   discount: number
 ) {
   return (
-    product.price.amount * (1 + TAX) * product.quantity - discount * (1 + TAX)
+    product.price.amount * (1 + TAX_RATE) * product.quantity -
+    discount * (1 + TAX_RATE)
   );
 }
