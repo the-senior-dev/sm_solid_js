@@ -1,8 +1,8 @@
-import extractProductCategories from "./utils/extractProductCategories";
-import { Product, ProductCategory } from "./types";
-import calculateCategoryPrice from "./utils/calculateCategoryPrice";
+import extractProductCategories from "./extractProductCategories";
+import { Product, ProductCategory } from "../types";
+import calculateCategoryPrice from "./calculateCategoryPrice";
 
-export default function calculateTotalPricePerCategory(
+export function calculateTotalPricePerCategory(
   productList: Product[]
 ): Partial<Record<ProductCategory, number>> {
   // 1. Extract Categories

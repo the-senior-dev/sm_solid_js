@@ -1,5 +1,5 @@
 import { Product, ProductCategory } from "../types";
-import extractProductCategories from "../utils/extractProductCategories";
+import extractProductCategories from "../priceModule/extractProductCategories";
 
 describe("extractProductCategories", () => {
   test("returns an object with unique categories", () => {

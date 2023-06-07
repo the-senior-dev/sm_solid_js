@@ -1,4 +1,4 @@
-import calculateTotalPricePerCategory from "../calculateTotalPricePerCategory";
+import { calculateTotalPricePerCategory } from "../priceModule";
 import { Product, ProductCategory } from "../types";
 
 describe("calculateTotalPricePerCategory", () => {
