@@ -476,6 +476,8 @@ If we apply the `Interface Segregation Principle` we will end up with smaller cl
 
 > :bell: **Reminder**: Every class in TypeScript inherently defines an interface. This interface includes all the public members of the class - properties, methods, etc. This makes TypeScript's class mechanics and type system very flexible and powerful, because you can use these implicit interfaces in type annotations just like explicit interfaces. Keep in mind, however, that this only applies to the public side of the class structure. If you have private or protected members in your class, they won't be part of the implicit interface.
 
+![applied-interface-segragation](docs/task_4/interface_segregation.png)
+
 Our new `Product` class will only be concerned with information about the product:
 
 ```typescript
