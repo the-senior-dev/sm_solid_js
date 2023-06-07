@@ -36,6 +36,11 @@ The SOLID principles help us write code that can be easily extended and maintain
 
 5. [ ] Apply the **O**pen/Closed Principle to allow developers to add new `discount` rules without modifying the calculate discount function.
 
+---
+
+<details closed>
+<summary>CLICK ME! - ACTION ITEM SETUP</summary>
+
 ## Setup
 
 1. Install dependencies
@@ -63,6 +68,10 @@ npm start
 You should see this in your terminal:
 
 ![program-results](/docs/program_results.png)
+
+</details>
+
+---
 
 ## Walkthrough:
 
@@ -422,7 +431,7 @@ You can implement any of the solutions above. We recommend you try this in any c
 
 #### TASK 4 - Interface Segregation
 
-<details closed>
+</details>
 
 ---
 
@@ -431,7 +440,7 @@ You can implement any of the solutions above. We recommend you try this in any c
 
 #### TASK 5 - Dependency Inversion
 
-<details closed>
+</details>
 
 ---
 
