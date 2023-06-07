@@ -535,6 +535,10 @@ export class CartItem {
 
 - simplify the `Product`class even further by extracting the `ProductPrice` into its own separated class.
 
+### Solution:
+
+- **🧪 Solution Code: `git checkout feature/interface-segregation`**
+
 </details>
 
 ---
@@ -543,6 +547,57 @@ export class CartItem {
 <summary>CLICK ME! - TASK 5 - Dependency Inversion</summary>
 
 #### TASK 5 - Dependency Inversion
+
+"Depend upon abstractions, [not] concretions." - Clean Code
+
+In simpler terms, the DIP suggests that software components (classes, modules, functions, etc.) should rely on abstract versions of components rather than concrete implementations.
+
+This allows for better decoupling of software components, making the system more modular and enabling easier changes and maintenance. The dependencies between components are inverted compared to a traditional top-down or bottom-up design where high-level modules directly depend on low-level modules.
+
+We can apply **Dependency Inversion** to many parts of our code, a good example is our `CartItem` class.
+
+```typescript
+import { Product } from "./Product";
+
+export class CartItem {
+  public product: Product;
+  public quantity: number;
+  constructor(product: Product, quantity: number) {
+    this.product = product;
+    this.quantity = quantity;
+  }
+
+  calculateTotalPrice(): number {
+    return this.product.price.amount * this.quantity;
+  }
+
+  calculateTotalPriceWithTax(taxRate: number): number {
+    return this.calculateTotalPrice() * (1 + taxRate);
+  }
+}
+```
+
+Above you can see, there is a direct dependecy between `CartItem` and `Product`. If the `Product` class implementation changes, there is a high probability that we will also have to change the `CartItem` class. This is also called `tigh coupling`.
+
+![direct-dependecy](/docs/task_5/direct_dependecy.png)
+
+To make the code more reusable we can instead move this dependecy to an interface, let's call that the `ProductIterface`.
+
+```typescript
+import { ProductCategory } from "../types";
+
+export default interface ProductInterface {
+  id: number;
+  name: string;
+  category: ProductCategory;
+  price: {
+    amount: number;
+    currency: string;
+  };
+}
+```
+
+![inverted-dependecy](/docs/task_5/inverted_dependency.png)
 
 </details>
 
