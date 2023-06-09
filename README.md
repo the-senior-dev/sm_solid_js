@@ -189,7 +189,7 @@ interface DiscountRule {
 }
 ```
 
-2. Extract the `rules` to the `config` file in this `module`
+2. Extract the `rules` to the [config](src/priceModule/config.ts) file in this `module`
 
 ```typescript
 export const DISCOUNT_RULES = [
@@ -211,6 +211,7 @@ export const DISCOUNT_RULES = [
 3. Update the code to use the `rules` array
 
 ```typescript
+// The rules array is passed as an argument to the calculateDiscount function
 function calculateDiscountBasedOnRules(
   product: Product,
   rules: DiscountRule[]
@@ -219,19 +220,18 @@ function calculateDiscountBasedOnRules(
   const sortedRules = [...rules].sort((a, b) => b.quantity - a.quantity);
 
   for (let rule of sortedRules) {
-    if (product.quantity >= rule.quantity) {
+    if (product.quantity > rule.quantity) {
       // Apply the first matching rule
-      return product.price.amount * rule.discount * product.quantity;
+      return rule.discount;
     }
   }
-  return discount;
 
   // No rule matched, return 0
   return 0;
 }
 ```
 
-4. Apply the rules array to the exported version of the function so our clients(whoever is using this function) are not affected
+4. Apply the `rules` array to the exported version of the function so our clients(whoever is using this function) are not affected
 
 ```typescript
 export default function calculateDiscount(product: Product) {
@@ -243,7 +243,7 @@ export default function calculateDiscount(product: Product) {
 
 ### Solution:
 
-- **🧪 Solution Code: `git checkout open-closed-principle`**
+- **🧪 Solution Code: `git checkout task_two_open_closed_end`**
 
 </details>
 
