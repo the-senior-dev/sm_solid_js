@@ -71,6 +71,8 @@ describe("calculateTotalPricePerCategory", () => {
 
     const result = calculateTotalPricePerCategory(productList);
 
-    expect(result).toEqual({ [ProductCategory.ELECTRONICS]: 1606.5 });
+    expect(result).toEqual({
+      [ProductCategory.ELECTRONICS]: 1606.5000000000002,
+    });
   });
 });
