@@ -83,7 +83,7 @@ You should see this in your terminal:
 
 ---
 
-## Walkthrough:
+### 📚Walkthrough:
 
 <details closed>
 <summary>CLICK ME! - TASK 1 -  🎯 Single Responsibility Principle</summary>
