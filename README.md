@@ -49,17 +49,17 @@ or "code should **depend on higher-level concepts rather than specific implement
 ---
 
 <details closed>
-<summary>CLICK ME! - ACTION ITEM SETUP</summary>
+<summary>CLICK ME! - 🛠️ ACTION ITEM SETUP</summary>
 
-## Setup
+### 🛠️ Setup
 
-1. Install dependencies
+1. Install dependencies 📦
 
 ```
 npm install
 ```
 
-2. Run tests
+2. Run the `tests` ✅
 
 ```
 npm test
@@ -69,7 +69,7 @@ You should see this in your terminal:
 
 ![test-results](/docs/test_results.png)
 
-3. Run the program:
+3. Run the program 🚀
 
 ```
 npm start
