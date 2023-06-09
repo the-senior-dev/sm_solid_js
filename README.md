@@ -83,14 +83,16 @@ You should see this in your terminal:
 
 ---
 
-### 📚Walkthrough:
+### 📚 Walkthrough
+
+---
 
 <details closed>
 <summary>CLICK ME! - TASK 1 -  🎯 Single Responsibility Principle</summary>
 
 #### TASK 1 - Single Responsibility Principle
 
-Apply the **Single Responsability Principle** to split the code in [src/calculateTotalPricePerCategory.ts](/src/calculateTotalPricePerCategory.ts) into `modules` that will evolve independently.
+Apply the **Single Responsability Principle** to split the code in [src/calculateTotalPricePerCategory.ts](/src/calculateTotalPricePerCategory.ts) into `functions/modules` that can change and evolve independently.
 
 > "A class should have only one reason to change" - Clean Code
 
