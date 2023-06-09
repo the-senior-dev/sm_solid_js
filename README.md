@@ -1,40 +1,50 @@
 # Action Item: SOLID principles 💊
 
-The SOLID principles help us write code that can be easily extended and maintained.
+The **SOLID** principles help us write code that can be easily extended and maintained.
 
 ![solid-principles](/docs/solid_principles.png)
 
-#### Single Responsability Principle
+#### 🎯 Single Responsability Principle
 
-> "A class should have only **one reason to change**" - Clean Code
+> "A `class` should have only **one reason to change**" - Clean Code
 
-#### Open/Closed Principle
+or "each piece of code should have only **one responsibility**"
+
+#### 🔒 Open/Closed Principle
 
 > "Software entities (classes, modules, functions, and so on) should be **open for extension, but closed for modification**" - Clean Code
 
-#### Liskow Substitution Principle
+of "code should be designed in a way that **allows new features to be added without modifying existing code.**"
+
+#### 🔄 Liskow Substitution Principle
 
 > "...an object (such as a class) may be replaced by a sub-object (such as a class that extends the first class) without breaking the program"
 
-#### Interface Segregation
+or substituting one module or piece of code with another should not break the behavior or functionality of the program.
+
+#### 🧩 Interface Segregation
 
 > "Clients should not be forced to depend upon interfaces that they do not use." - Clean Code
 
-#### Dependency Inversion Principle
+of "avoid creating large, monolithic functions/objects/classes/interfaces that contain many unrelated methods or properties."
+
+#### 🔗 Dependency Inversion Principle
 
 > "Depend upon abstractions, [not] concretions." - Clean Code
 
+or "code should **depend on higher-level concepts rather than specific implementations**".
+
 ## Tasks:
 
-1. [ ] Apply the **Single Responsability Principle** to split the code in [src/calculateTotalPricePerCategory.ts](/src/calculateTotalPricePerCategory.ts) into `modules` that will evolve independently.
+1. [ ] 1. Apply the **Single Responsability Principle** to split the code in [src/calculateTotalPricePerCategory.ts](/src/calculateTotalPricePerCategory.ts) into `modules` that will evolve independently.
 
-2. [ ] Apply the **Open/Closed Principle** to allow developers to add new `discount` rules without modifying the calculate discount function.
+2. [ ] 2. Apply the **Open/Closed Principle** to allow developers to add new `discount` rules without modifying the `calculateDiscount` function.
 
-3. [ ] Apply the **O**pen/Closed Principle to allow developers to add new `discount` rules without modifying the calculate discount function.
+3. [ ] 3. Apply **Liskov Substitution** to the `Product` class and it's childred.
 
-4. [ ] Apply the **O**pen/Closed Principle to allow developers to add new `discount` rules without modifying the calculate discount function.
+4. [ ] 4. Apply **Interface Segregation** to the `Product` class in order to avoid unecesarry coupling.
 
-5. [ ] Apply the **O**pen/Closed Principle to allow developers to add new `discount` rules without modifying the calculate discount function.
+5. [ ] 5. Make code more reusable and reduce `coupling` by applying **DependencyInversion** to our `Product Class`.
 
 ---
 
@@ -76,7 +86,7 @@ You should see this in your terminal:
 ## Walkthrough:
 
 <details closed>
-<summary>CLICK ME! - TASK 1 - Single Responsibility Principle</summary>
+<summary>CLICK ME! - TASK 1 -  🎯 Single Responsibility Principle</summary>
 
 #### TASK 1 - Single Responsibility Principle
 
@@ -120,7 +130,7 @@ Advantages of the new structure:
 ---
 
 <details closed>
-<summary>CLICK ME! - TASK 2 - Open/Closed Principle</summary>
+<summary>CLICK ME! - TASK 2 - 🔒 Open/Closed Principle</summary>
 
 #### TASK 2 - Open/Closed Principle
 
@@ -238,7 +248,7 @@ export default function calculateDiscount(product: Product) {
 ---
 
 <details closed>
-<summary>CLICK ME! - TASK 3 - Liskov Substitution</summary>
+<summary>CLICK ME! - TASK 3 - 🔄 Liskov Substitution</summary>
 
 #### TASK 3 - Liskov Substitution
 
@@ -427,9 +437,9 @@ You can implement any of the solutions above. We recommend you try this in any c
 ---
 
 <details closed>
-<summary>CLICK ME! - TASK 4 - Interface Segregation</summary>
+<summary>CLICK ME! - TASK 4 - 🧩 Interface Segregation</summary>
 
-#### TASK 4 - Interface Segregation
+### TASK 4 - Interface Segregation
 
 > "Clients should not be forced to depend upon interfaces that they do not use." - Clean Code
 
@@ -544,7 +554,7 @@ export class CartItem {
 ---
 
 <details closed>
-<summary>CLICK ME! - TASK 5 - Dependency Inversion</summary>
+<summary>CLICK ME! - TASK 5 - 🔗 Dependency Inversion</summary>
 
 #### TASK 5 - Dependency Inversion
 
