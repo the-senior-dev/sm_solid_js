@@ -1,18 +1,18 @@
 import extractProductCategories from "./extractProductCategories";
 import ProductCategory from "./domain/ProductCategory";
-import Product from "./domain/Product";
 import calculateCategoryPrice from "./calculateCategoryPrice";
+import { CartItem } from "./domain/CartItem";
 
 export function calculateTotalPricePerCategory(
-  productList: Product[]
+  itemList: CartItem[]
 ): Partial<Record<ProductCategory, number>> {
   // 1. Extract Categories
-  const categories = extractProductCategories(productList);
+  const categories = extractProductCategories(itemList);
 
   // 2. Calculate Total Price Per Category
   const totalPricePerCategory = Object.keys(categories).reduce(
     (acc, category: ProductCategory) => {
-      const totalPrice = calculateCategoryPrice(productList, category);
+      const totalPrice = calculateCategoryPrice(itemList, category);
 
       return {
         ...acc,
