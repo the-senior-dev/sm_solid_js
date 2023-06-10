@@ -644,30 +644,41 @@ In simpler terms, the DIP suggests that software components (classes, modules, f
 
 This allows for better decoupling of software components, making the system more modular and enabling easier changes and maintenance. The dependencies between components are inverted compared to a traditional top-down or bottom-up design where high-level modules directly depend on low-level modules.
 
+📝 Before we start, checkout on the following branch:
+
+```bash
+git checkout dependency_inversion_start
+```
+  
 We can apply **Dependency Inversion** to many parts of our code, a good example is our `CartItem` class.
 
 ```typescript
-import { Product } from "./Product";
+import Product from "./Product"; // We want to remove this direct import ❌❌❌
+import { TaxStrategy } from "./TaxStrategy";
 
 export class CartItem {
   public product: Product;
   public quantity: number;
-  constructor(product: Product, quantity: number) {
+  public taxStrategy: TaxStrategy;
+  constructor(product: Product, quantity: number, taxStrategy: TaxStrategy) {
     this.product = product;
     this.quantity = quantity;
+    this.taxStrategy = taxStrategy;
   }
 
   calculateTotalPrice(): number {
     return this.product.price.amount * this.quantity;
   }
 
-  calculateTotalPriceWithTax(taxRate: number): number {
-    return this.calculateTotalPrice() * (1 + taxRate);
+  calculateTotalPriceWithTax(): number {
+    const tax = this.taxStrategy.calculateTax(this.calculateTotalPrice());
+    return this.calculateTotalPrice() + tax;
   }
 }
+
 ```
 
-Above you can see, there is a direct dependecy between `CartItem` and `Product`. If the `Product` class implementation changes, there is a high probability that we will also have to change the `CartItem` class. This is also called `tigh coupling`.
+Above you can see, there is a direct dependecy between `CartItem` and `Product`. If the `Product` class implementation changes, there is a high probability that we will also have to change the `CartItem` class. This is also called `tight coupling`.
 
 ![direct-dependecy](/docs/task_5/direct_dependecy.png)
 
@@ -690,47 +701,35 @@ export default interface ProductInterface {
 Our concrete classes: `Product` and `CartItem` will depend on the `ProductCategory` abstraction but not on each other, like this:
 
 ```typescript
-import ProductInterface from "./ProductInterface";
+import ProductCategory from "./ProductCategory";
+import ProductPrice from "./ProductPrice";
 
-export class CartItem {
-  public product: ProductInterface;
-  public quantity: number;
-  constructor(product: ProductInterface, quantity: number) {
-    this.product = product;
-    this.quantity = quantity;
-  }
-
-  calculateTotalPrice(): number {
-    return this.product.price.amount * this.quantity;
-  }
-
-  calculateTotalPriceWithTax(taxRate: number): number {
-    return this.calculateTotalPrice() * (1 + taxRate);
-  }
+export default interface ProductInterface { // A Generic Abstraction of Product
+  id: number;
+  name: string;
+  category: ProductCategory;
+  price: ProductPrice;
 }
 ```
 
-And:
+And we make sure our `ProductClass` implements the `interface`:
 
 ```typescript
-import { ProductCategory } from "../types";
+import ProductCategory from "./ProductCategory";
 import ProductInterface from "./ProductInterface";
+import Price from "./ProductPrice";
 
-export class Product implements ProductInterface {
+export default class Product implements ProductInterface {
   public id: number;
   public name: string;
   public category: ProductCategory;
-  private isOnSale: boolean = true;
-  public price: {
-    amount: number;
-    currency: string;
-  };
+  public price: Price;
 
   constructor(
     id: number,
     name: string,
     category: ProductCategory,
-    price: { amount: number; currency: string }
+    price: Price
   ) {
     this.id = id;
     this.name = name;
@@ -740,11 +739,41 @@ export class Product implements ProductInterface {
 }
 ```
 
+Our new `CartItem.ts` does not depend on a concrete implementation but rather on the abstraction(in this case an `interface`):
+```typescript
+import ProductInterface from "./ProductInterface";
+import { TaxStrategy } from "./TaxStrategy";
+
+export class CartItem {
+  public product: ProductInterface;
+  public quantity: number;
+  public taxStrategy: TaxStrategy;
+  constructor(
+    product: ProductInterface,
+    quantity: number,
+    taxStrategy: TaxStrategy
+  ) {
+    this.product = product;
+    this.quantity = quantity;
+    this.taxStrategy = taxStrategy;
+  }
+
+  calculateTotalPrice(): number {
+    return this.product.price.amount * this.quantity;
+  }
+
+  calculateTotalPriceWithTax(): number {
+    const tax = this.taxStrategy.calculateTax(this.calculateTotalPrice());
+    return this.calculateTotalPrice() + tax;
+  }
+}
+```
 ![inverted-dependecy](/docs/task_5/inverted_dependency.png)
 
-#### TODOS
-
-- implement the solution above and make sure the code works corecctly by running the tests
+#### Solution Branch
+```bash
+git checkout dependency_inversion_solution
+```
 
 #### BONUS
 
@@ -754,8 +783,13 @@ How would you do that?
 
 <details closed>
 <summary>CLICK ME! - BONUS SOLUTIOM</summary>
+  
+#### Starting point
+```bash
+git checkout dependency_inversion_solution
+```
 
-We can provie the type of the category at runtime by using `Generics`. This is also called `DependencyInjection` and can be applied to function, classes and modules.
+We can provide the type of the category at runtime by using `Generics`. This is also called `DependencyInjection` and can be applied to function, classes and modules.
 
 ```typescript
 interface AbstractProductInterface<ProdCat> {
@@ -771,7 +805,14 @@ interface AbstractProductInterface<ProdCat> {
 // Concrete Version of the AbstractProductInterface using the standard ProductCategory
 export default ProductInterface = AbstractProductInterface<ProductCategory>;
 ```
+  
+Bonus Solution 
 
+#### Solution Branch
+```bash
+git checkout dependency_inversion_solution_bonus
+```
+ 
 </details>
 
 </details>
