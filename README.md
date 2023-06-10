@@ -270,7 +270,7 @@ npm test
 ```
 
 You should see something like this:
-![liskov-test](docs/task_3/tests-liskov.png)
+![liskov-test](docs/task_3/tests_liskov.png)
   
   
 #### ⚠️ Violation of **Liskov Substitution**:
