@@ -271,17 +271,19 @@ npm test
 
 You should see something like this:
 ![liskov-test](docs/task_3/tests-liskov.png)
+  
+  
+#### ⚠️ Violation of **Liskov Substitution**:
+
+> `GiftProduct` cannot be used in the code instead of its parent class(super object) because it will result in errors thrown when the `calculateTotalPriceWithTax` method is called.
 
 3. Fix the violation of `LSP`. We can do this in two different ways:
 
   - make sure the child does not break any behaivour of the parent
   - prefer **Composition over Inheritance** to keep `inheritance chains` small
-
-We will go with option one for now. 
+    
+Before we head to the solution, go to [src/priceModule/domain](src/priceModule/domain) and checkout our new `classes`:
   
-4. Change the child behaivour so it can substitute the parent
-  
-Head over to [src/priceModule/domain](src/priceModule/domain) and checkout our new `classes`:
 ```typescript
 // Product Class
 export class Product {
@@ -330,23 +332,9 @@ export class GiftProduct extends Product {
 }
 ```
 
-#### ⚠️ Violation of **Liskov Substitution**:
-
-`GiftProduct` cannot be used in the code instead of its parent class(super object) because it will result in errors thrown when the `calculateTotalPriceWithTax` method is called.
-
-To illustrate this we wrote a test in [liskovTest.spec.ts](src/test/liskovTest.spec.ts) that you can run:
-
-```bash
-npm test --t liskovTest
-```
-
-The test will fail, showing a violation of the `LSP`:
-
-TODO - ad an image here []
-
 ### Solving the `LSP` violation:
 
-##### Solution #1  
+#### Solution #1  
 In our case, becasuse we use `TypeScript` we ensure that at least from the shape perspective the children classes will comply with the `interface` of the `parent class`. However we can stil break `LSP` with behaivour, like throwing `exceptions`. To avoid it we need to:
 
 1. Avoid throwing `errors` in `child classes` that `parent classes` do not throw. In this class case we can just return 0 instead:
@@ -366,7 +354,7 @@ export class GiftProduct extends Product {
 }
 ```
   
-##### Solution #2  
+#### Solution #2  
 2. Prefer **Composition Over Inheritance** - this is something frameworks like `React` adopted to avoid problems that come from having long inheritance chains(like the violation of `LSP`).
 
 Instead of inheriting the tax application behaivour, we will add it to our objects at build time.
