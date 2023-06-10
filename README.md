@@ -261,7 +261,7 @@ To illustrate this we will use `classes` for our products and move the relevant 
 1. Before we start, checkout on the following branch:
 
 ```bash
-git checkout liskow-substitution-principle-start
+git checkout liskow_substitution_principle_start
 ```
   
 2. Run the tests so see the violation of the `LSP`:
@@ -337,48 +337,171 @@ export class GiftProduct extends Product {
 #### Solution #1  
 In our case, becasuse we use `TypeScript` we ensure that at least from the shape perspective the children classes will comply with the `interface` of the `parent class`. However we can stil break `LSP` with behaivour, like throwing `exceptions`. To avoid it we need to:
 
-1. Avoid throwing `errors` in `child classes` that `parent classes` do not throw. In this class case we can just return 0 instead:
+1. Avoid throwing `errors` in `child classes` that `parent classes` do not throw. In this class case we can just return 0 instead. In [GiftProduct](src/priceModule/domain/GiftProduct.ts):
 ```typescript
-export class GiftProduct extends Product {
+import Product from "./Product";
+
+export default class GiftProduct extends Product {
   private isTaxable = false;
 
   calculateTotalPriceWithTax(taxRate: number): number {
+    // Behaves like the parent class ✅✅✅
     // Rather than throw an error, just ignore the tax for gift products
     if (this.isTaxable) {
       return super.calculateTotalPriceWithTax(taxRate);
     } else {
       // If the product is not taxable, return the total price without tax
-      return this.calculateTotalPrice();
+      return this.calculateTotalPrice(); // 🎉 Test Passed! 🎉
     }
   }
 }
+
+```
+  
+##### Branch for Solution #1 
+```bash
+git checkout liskow_substitution_principle_solution_one
 ```
   
 #### Solution #2  
 2. Prefer **Composition Over Inheritance** - this is something frameworks like `React` adopted to avoid problems that come from having long inheritance chains(like the violation of `LSP`).
 
-Instead of inheriting the tax application behaivour, we will add it to our objects at build time.
-
-Our new class will looks something like this:
-
+Instead of inheriting the tax application behaivour, we will add it to our objects at build time. We will use an extra building block to encapsulate the tax logic. In the `domain` folder, create a new file, `TaxStrategy`:
+  
 ```typescript
-interface TaxStrategy {
+import { TAX_RATE } from "../config";
+
+export interface TaxStrategy {
   calculateTax(amount: number): number;
 }
 
-class StandardTaxStrategy implements TaxStrategy {
+export class StandardTaxStrategy implements TaxStrategy {
   calculateTax(amount: number): number {
-    return amount * 0.2; // 20% tax
+    return amount * TAX_RATE;
   }
 }
 
-class NonTaxableStrategy implements TaxStrategy {
+export class NonTaxableStrategy implements TaxStrategy {
   calculateTax(amount: number): number {
     return 0;
   }
 }
+```
 
-export class Product {
+Our new `Product` class will look like this:
+
+```diff
+import { ProductCategory } from "../../types";
++import { TaxStrategy } from "./TaxStrategy";
+
+export default class Product {
+  public id: number;
+  public name: string;
+  public category: ProductCategory;
+  public quantity: number;
+  public price: {
+    amount: number;
+    currency: string;
+  };
++ private taxStrategy: TaxStrategy;
+
+  constructor(
+    id: number,
+    name: string,
+    category: ProductCategory,
+    quantity: number,
+    price: { amount: number; currency: string },
+    taxStrategy: TaxStrategy
+  ) {
+    this.id = id;
+    this.name = name;
+    this.category = category;
+    this.quantity = quantity;
+    this.price = price;
++   this.taxStrategy = taxStrategy;
+  }
+
+  calculateTotalPrice(): number {
+    return this.price.amount * this.quantity;
+  }
+
+  calculateTotalPriceWithTax(): number {
++   const tax = this.taxStrategy.calculateTax(this.calculateTotalPrice());
+    return this.calculateTotalPrice() + tax;
+  }
+}
+```
+
+// We can create new variations of `Product` with **Composition** rather then inheriting from the parent class. In [GiftProduct.ts](src/priceModule/domain/GiftProduct.ts) remove the class and add:
+  
+```typescript
+import { ProductCategory } from "../../types";
+import Product from "./Product";
+import { NonTaxableStrategy, StandardTaxStrategy } from "./TaxStrategy";
+
+// Composition Over Inheritance
+const regularProduct = new Product(
+  1,
+  "Regular Product",
+  ProductCategory.FOOD,
+  2,
+  { amount: 100, currency: "USD" },
+  new StandardTaxStrategy()
+);
+
+const giftProduct = new Product(
+  2,
+  "Gift Product",
+  ProductCategory.FOOD,
+  2,
+  { amount: 100, currency: "USD" },
+  new NonTaxableStrategy()
+);
+
+```
+
+###### ❗❗ We will have to update all our test because the way we build the `Product` class changed. ❗❗
+
+You can try that yourself or checkout our solution:
+```bash
+git checkout liskow_substitution_principle_solution_two  
+```
+  
+Feel free to implement any of the solutions above. We recommend you try this in any codebase you are working with to make sure you fixate the concept.
+
+ > In modern JavaScript frameworks like `React` or `Vue`, the principle of **composition over inheritance** is widely embraced. This approach promotes building components by composing smaller, reusable pieces of functionality rather than relying heavily on class inheritance hierarchies. By favoring composition, these frameworks offer flexibility, reusability, simplification, and separation of concerns. 
+`Components` are created by combining smaller components together, allowing for modular and scalable designs. `React` and `Vue` exemplify this principle through their component-based architectures, declarative syntax, and support for reusable building blocks.
+  
+#### Solution #2 branch
+```bash
+git checkout liskow_substitution_principle_solution_two
+```
+  
+NOTE: Run the tests to make sure you fixed the `LSP` violation.
+  
+  
+</details>
+
+---
+
+<details closed>
+<summary>CLICK ME! - TASK 4 - 🧩 Interface Segregation</summary>
+
+### TASK 4 - Interface Segregation
+
+> "Clients should not be forced to depend upon interfaces that they do not use." - Clean Code
+
+To make this principle simple you can say:
+
+> "Aa class should not be forced to implement interfaces it doesn't use. Instead of one big interface, many small interfaces are preferred based on groups of methods, each one serving one submodule."
+
+This principle is a bit abstract but we can easily understand it with our `Product` class:
+
+```typescript
+import ProductCategory from "./ProductCategory";
+import { TaxStrategy } from "./TaxStrategy";
+
+export default class Product {
   public id: number;
   public name: string;
   public category: ProductCategory;
@@ -415,106 +538,35 @@ export class Product {
   }
 }
 
-// Tax Behaivour Comes from Composing the Object rather then being inherited from a parent class
-const regularProduct = new Product(
-  1,
-  "Regular Product",
-  ProductCategory.FOOD,
-  2,
-  { amount: 100, currency: "USD" },
-  new StandardTaxStrategy()
-);
-
-const giftProduct = new Product(
-  2,
-  "Gift Product",
-  ProductCategory.FOOD,
-  2,
-  { amount: 100, currency: "USD" },
-  new NonTaxableStrategy()
-);
 ```
 
-You can implement any of the solutions above. We recommend you try this in any codebase you are working with to make sure you fixate the concept.
-
- > In modern JavaScript frameworks like `React` or `Vue`, the principle of **composition over inheritance** is widely embraced. This approach promotes building components by composing smaller, reusable pieces of functionality rather than relying heavily on class inheritance hierarchies. By favoring composition, these frameworks offer flexibility, reusability, simplification, and separation of concerns. 
-`Components` are created by combining smaller components together, allowing for modular and scalable designs. `React` and `Vue` exemplify this principle through their component-based architectures, declarative syntax, and support for reusable building blocks.
-  
-</details>
-
----
-
-<details closed>
-<summary>CLICK ME! - TASK 4 - 🧩 Interface Segregation</summary>
-
-### TASK 4 - Interface Segregation
-
-> "Clients should not be forced to depend upon interfaces that they do not use." - Clean Code
-
-To make this principle simple you can say:
-
-> "Aa class should not be forced to implement interfaces it doesn't use. Instead of one big interface, many small interfaces are preferred based on groups of methods, each one serving one submodule."
-
-This principle is a bit abstract but we can easily understand it with our `Product` class:
-
-```typescript
-export class Product {
-  public id: number;
-  public name: string;
-  public category: ProductCategory;
-  public quantity: number;
-  public price: {
-    amount: number;
-    currency: string;
-  };
-
-  constructor(
-    id: number,
-    name: string,
-    category: ProductCategory,
-    quantity: number,
-    price: { amount: number; currency: string }
-  ) {
-    this.id = id;
-    this.name = name;
-    this.category = category;
-    this.quantity = quantity;
-    this.price = price;
-  }
-
-  ...
-}
-```
-
-Whoever wants information about the `Product` also ends up consuming the `quantiy` property, which is only relevant for certain usecase. If we just want to display a list of products or an individual product, the `quantity` is irelevant.
+Whoever wants information about the `Product` also ends up consuming the `quantiy` property, which is only relevant for certain usecases. If we just want to display a list of products or an individual product, the `quantity` is irelevant.
 
 ##### Apllied Interface Segregation Principle
 
 If we apply the `Interface Segregation Principle` we will end up with smaller classes that deal with specific behaivours.
 
-> :bell: **Reminder**: Every class in TypeScript inherently defines an interface. This interface includes all the public members of the class - properties, methods, etc. This makes TypeScript's class mechanics and type system very flexible and powerful, because you can use these implicit interfaces in type annotations just like explicit interfaces. Keep in mind, however, that this only applies to the public side of the class structure. If you have private or protected members in your class, they won't be part of the implicit interface.
+> :bell: **Reminder**: Every `class` in `TypeScript` inherently defines an `interface`. This `interface` includes all the public members of the class - properties, methods, etc. This makes TypeScript's class mechanics and type system very flexible and powerful, because you can use these implicit interfaces in type annotations just like explicit interfaces. Keep in mind, however, that this only applies to the public side of the class structure. If you have private or protected members in your class, they won't be part of the implicit interface.
 
 ![applied-interface-segragation](docs/task_4/interface_segregation.png)
 
 Our new `Product` class will only be concerned with information about the product:
 
 ```typescript
-import { ProductCategory } from "../types";
+import ProductCategory from "./ProductCategory";
+import Price from "./ProductPrice";
 
-export class Product {
+export default class Product {
   public id: number;
   public name: string;
   public category: ProductCategory;
-  public price: {
-    amount: number;
-    currency: string;
-  };
+  public price: Price;
 
   constructor(
     id: number,
     name: string,
     category: ProductCategory,
-    price: { amount: number; currency: string }
+    price: Price
   ) {
     this.id = id;
     this.name = name;
@@ -522,37 +574,57 @@ export class Product {
     this.price = price;
   }
 }
+
 ```
 
-And we move all the `quantity` and `price` calculations to the `CartItem` class:
+We move all the `quantity` and `price` calculations to the `CartItem` class:
 
 ```typescript
-import { Product } from "./Product";
+import Product from "./Product";
+import { TaxStrategy } from "./TaxStrategy";
 
 export class CartItem {
   public product: Product;
   public quantity: number;
-  constructor(product: Product, quantity: number) {
+  public taxStrategy: TaxStrategy;
+  constructor(product: Product, quantity: number, taxStrategy: TaxStrategy) {
     this.product = product;
     this.quantity = quantity;
+    this.taxStrategy = taxStrategy;
   }
 
   calculateTotalPrice(): number {
     return this.product.price.amount * this.quantity;
   }
 
-  calculateTotalPriceWithTax(taxRate: number): number {
-    return this.calculateTotalPrice() * (1 + taxRate);
+  calculateTotalPriceWithTax(): number {
+    const tax = this.taxStrategy.calculateTax(this.calculateTotalPrice());
+    return this.calculateTotalPrice() + tax;
+  }
+}
+```
+  
+And we encapsulate the `Price` in its own class:
+```typescript
+export default class ProductPrice {
+  public amount: number;
+  public currency: string;
+
+  constructor(amount: number, currency: string) {
+    this.amount = amount;
+    this.currency = currency;
   }
 }
 ```
 
-> :bulb: **Note for future**: The `CartItem` class might implement future behaivour like `calculateShippingCosts` without poluting the `ProductInterface`. In this way, the users of these classes get exacttly what they need, not more,nor less.
+❗❗ The changes introduce will break the app and the tests. Make sure you refactor everything to make the tests pass. You can check our solution here:
+```bash
+git checkout interface_segregation_solution
+```
+  
+> :bulb: **Note for future**: The `CartItem` class might implement future behaivour like `calculateShippingCosts` without poluting the `ProductInterface`. In this way, the users of these classes get exacttly what they need, not more, nor less.
 
-### Todo:
-
-- simplify the `Product`class even further by extracting the `ProductPrice` into its own separated class.
-
+  
 ### Solution:
 
 - **🧪 Solution Code: `git checkout feature/interface-segregation`**
