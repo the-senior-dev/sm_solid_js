@@ -261,7 +261,7 @@ To illustrate this we will use `classes` for our products and move the relevant 
 1. Before we start, checkout on the following branch:
 
 ```bash
-git checkout liskow-substitution-principle-start
+git checkout liskow_substitution_principle_start
 ```
   
 2. Run the tests so see the violation of the `LSP`:
@@ -358,31 +358,43 @@ export default class GiftProduct extends Product {
 
 ```
   
+#### Solution #1 branch
+```bash
+git checkout liskow_substitution_principle_solution_one
+```
+  
 #### Solution #2  
 2. Prefer **Composition Over Inheritance** - this is something frameworks like `React` adopted to avoid problems that come from having long inheritance chains(like the violation of `LSP`).
 
-Instead of inheriting the tax application behaivour, we will add it to our objects at build time.
-
-Our new class will looks something like this:
-
+Instead of inheriting the tax application behaivour, we will add it to our objects at build time. We will use an extra building block to encapsulate the tax logic. In the `domain` folder, create a new file, `TaxStrategy`:
+  
 ```typescript
-interface TaxStrategy {
+import { TAX_RATE } from "../config";
+
+export interface TaxStrategy {
   calculateTax(amount: number): number;
 }
 
-class StandardTaxStrategy implements TaxStrategy {
+export class StandardTaxStrategy implements TaxStrategy {
   calculateTax(amount: number): number {
-    return amount * 0.2; // 20% tax
+    return amount * TAX_RATE;
   }
 }
 
-class NonTaxableStrategy implements TaxStrategy {
+export class NonTaxableStrategy implements TaxStrategy {
   calculateTax(amount: number): number {
     return 0;
   }
 }
+```
 
-export class Product {
+Our new `Product` class will look like this:
+
+```diff
+import { ProductCategory } from "../../types";
++import { TaxStrategy } from "./TaxStrategy";
+
+export default class Product {
   public id: number;
   public name: string;
   public category: ProductCategory;
@@ -391,7 +403,7 @@ export class Product {
     amount: number;
     currency: string;
   };
-  private taxStrategy: TaxStrategy;
++ private taxStrategy: TaxStrategy;
 
   constructor(
     id: number,
@@ -406,7 +418,7 @@ export class Product {
     this.category = category;
     this.quantity = quantity;
     this.price = price;
-    this.taxStrategy = taxStrategy;
++   this.taxStrategy = taxStrategy;
   }
 
   calculateTotalPrice(): number {
@@ -414,12 +426,20 @@ export class Product {
   }
 
   calculateTotalPriceWithTax(): number {
-    const tax = this.taxStrategy.calculateTax(this.calculateTotalPrice());
++   const tax = this.taxStrategy.calculateTax(this.calculateTotalPrice());
     return this.calculateTotalPrice() + tax;
   }
 }
+```
 
-// Tax Behaivour Comes from Composing the Object rather then being inherited from a parent class
+// We can create new variations of `Product` with **Composition** rather then inheriting from the parent class. In [GiftProduct.ts](src/priceModule/domain/GiftProduct.ts) remove the class and add:
+  
+```typescript
+import { ProductCategory } from "../../types";
+import Product from "./Product";
+import { NonTaxableStrategy, StandardTaxStrategy } from "./TaxStrategy";
+
+// Composition Over Inheritance
 const regularProduct = new Product(
   1,
   "Regular Product",
@@ -437,12 +457,30 @@ const giftProduct = new Product(
   { amount: 100, currency: "USD" },
   new NonTaxableStrategy()
 );
+
 ```
 
-You can implement any of the solutions above. We recommend you try this in any codebase you are working with to make sure you fixate the concept.
+###### ❗❗ We will have to update all our test because the way we build the `Product` class changed. ❗❗
+
+You can try that yourself or checkout our solution:
+bash```
+git checkout liskow_substitution_principle_solution_two  
+```  
+
+---
+  
+Feel free to implement any of the solutions above. We recommend you try this in any codebase you are working with to make sure you fixate the concept.
 
  > In modern JavaScript frameworks like `React` or `Vue`, the principle of **composition over inheritance** is widely embraced. This approach promotes building components by composing smaller, reusable pieces of functionality rather than relying heavily on class inheritance hierarchies. By favoring composition, these frameworks offer flexibility, reusability, simplification, and separation of concerns. 
 `Components` are created by combining smaller components together, allowing for modular and scalable designs. `React` and `Vue` exemplify this principle through their component-based architectures, declarative syntax, and support for reusable building blocks.
+  
+#### Solution #2 branch
+```bash
+git checkout liskow_substitution_principle_solution_two
+```
+  
+NOTE: Run the tests to make sure you fixed the `LSP` violation.
+  
   
 </details>
 
