@@ -2,7 +2,7 @@ import ProductCategory from "./ProductCategory";
 import ProductInterface from "./ProductInterface";
 import Price from "./ProductPrice";
 
-export default class Product implements ProductInterface {
+export default class Product implements ProductInterface<ProductCategory> {
   public id: number;
   public name: string;
   public category: ProductCategory;
