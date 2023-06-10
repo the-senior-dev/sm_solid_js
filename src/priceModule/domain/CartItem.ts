@@ -1,11 +1,15 @@
-import Product from "./Product";
+import ProductInterface from "./ProductInterface";
 import { TaxStrategy } from "./TaxStrategy";
 
 export class CartItem {
-  public product: Product;
+  public product: ProductInterface;
   public quantity: number;
   public taxStrategy: TaxStrategy;
-  constructor(product: Product, quantity: number, taxStrategy: TaxStrategy) {
+  constructor(
+    product: ProductInterface,
+    quantity: number,
+    taxStrategy: TaxStrategy
+  ) {
     this.product = product;
     this.quantity = quantity;
     this.taxStrategy = taxStrategy;
