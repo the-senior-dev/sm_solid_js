@@ -553,22 +553,20 @@ If we apply the `Interface Segregation Principle` we will end up with smaller cl
 Our new `Product` class will only be concerned with information about the product:
 
 ```typescript
-import { ProductCategory } from "../types";
+import ProductCategory from "./ProductCategory";
+import Price from "./ProductPrice";
 
-export class Product {
+export default class Product {
   public id: number;
   public name: string;
   public category: ProductCategory;
-  public price: {
-    amount: number;
-    currency: string;
-  };
+  public price: Price;
 
   constructor(
     id: number,
     name: string,
     category: ProductCategory,
-    price: { amount: number; currency: string }
+    price: Price
   ) {
     this.id = id;
     this.name = name;
@@ -576,37 +574,57 @@ export class Product {
     this.price = price;
   }
 }
+
 ```
 
-And we move all the `quantity` and `price` calculations to the `CartItem` class:
+We move all the `quantity` and `price` calculations to the `CartItem` class:
 
 ```typescript
-import { Product } from "./Product";
+import Product from "./Product";
+import { TaxStrategy } from "./TaxStrategy";
 
 export class CartItem {
   public product: Product;
   public quantity: number;
-  constructor(product: Product, quantity: number) {
+  public taxStrategy: TaxStrategy;
+  constructor(product: Product, quantity: number, taxStrategy: TaxStrategy) {
     this.product = product;
     this.quantity = quantity;
+    this.taxStrategy = taxStrategy;
   }
 
   calculateTotalPrice(): number {
     return this.product.price.amount * this.quantity;
   }
 
-  calculateTotalPriceWithTax(taxRate: number): number {
-    return this.calculateTotalPrice() * (1 + taxRate);
+  calculateTotalPriceWithTax(): number {
+    const tax = this.taxStrategy.calculateTax(this.calculateTotalPrice());
+    return this.calculateTotalPrice() + tax;
+  }
+}
+```
+  
+And we encapsulate the `Price` in its own class:
+```typescript
+export default class ProductPrice {
+  public amount: number;
+  public currency: string;
+
+  constructor(amount: number, currency: string) {
+    this.amount = amount;
+    this.currency = currency;
   }
 }
 ```
 
-> :bulb: **Note for future**: The `CartItem` class might implement future behaivour like `calculateShippingCosts` without poluting the `ProductInterface`. In this way, the users of these classes get exacttly what they need, not more,nor less.
+❗❗ The changes introduce will break the app and the tests. Make sure you refactor everything to make the tests pass. You can check our solution here:
+```bash
+git checkout interface_segregation_solution
+```
+  
+> :bulb: **Note for future**: The `CartItem` class might implement future behaivour like `calculateShippingCosts` without poluting the `ProductInterface`. In this way, the users of these classes get exacttly what they need, not more, nor less.
 
-### Todo:
-
-- simplify the `Product`class even further by extracting the `ProductPrice` into its own separated class.
-
+  
 ### Solution:
 
 - **🧪 Solution Code: `git checkout feature/interface-segregation`**
