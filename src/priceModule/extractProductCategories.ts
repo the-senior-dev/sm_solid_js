@@ -1,4 +1,4 @@
-import { Product } from "../types";
+import Product from "./domain/Product";
 
 export default function extractProductCategories(productList: Product[]) {
   return productList.reduce((acc, product) => {

@@ -1,4 +1,6 @@
-import { Product, GiftProduct, ProductCategory } from "../types";
+import { ProductCategory } from "../types";
+import GiftProduct from "../priceModule/domain/GiftProduct";
+import Product from "../priceModule/domain/Product";
 
 describe("Liskov Substitution Principle", () => {
   it("should violate the Liskov Substitution Principle", () => {

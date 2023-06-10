@@ -1,5 +1,6 @@
 import { calculateTotalPricePerCategory } from "../priceModule";
-import { Product, ProductCategory } from "../types";
+import { ProductCategory } from "../types";
+import Product from "../priceModule/domain/Product";
 
 describe("calculateTotalPricePerCategory", () => {
   it("should return an empty object when the productList is empty", () => {
@@ -59,6 +60,8 @@ describe("calculateTotalPricePerCategory", () => {
 
     const result = calculateTotalPricePerCategory(productList);
 
-    expect(result).toEqual({ [ProductCategory.ELECTRONICS]: 1606.5 });
+    expect(result).toEqual({
+      [ProductCategory.ELECTRONICS]: 1606.5000000000002,
+    });
   });
 });

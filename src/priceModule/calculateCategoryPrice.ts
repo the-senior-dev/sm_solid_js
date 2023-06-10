@@ -1,4 +1,5 @@
-import { Product, ProductCategory } from "../types";
+import { ProductCategory } from "../types";
+import Product from "./domain/Product";
 import calculateProductPrice from "./calculateProductPrice";
 
 export default function calculateCategoryPrice(

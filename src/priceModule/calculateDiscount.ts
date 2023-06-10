@@ -1,4 +1,4 @@
-import { Product } from "../types";
+import Product from "./domain/Product";
 import { DISCOUNT_RULES } from "./config";
 
 interface DiscountRule {
@@ -15,9 +15,9 @@ function calculateDiscountBasedOnRules(
   const sortedRules = [...rules].sort((a, b) => b.quantity - a.quantity);
 
   for (let rule of sortedRules) {
-    if (product.quantity >= rule.quantity) {
+    if (product.quantity > rule.quantity) {
       // Apply the first matching rule
-      return product.price.amount * rule.discount * product.quantity;
+      return rule.discount;
     }
   }
 

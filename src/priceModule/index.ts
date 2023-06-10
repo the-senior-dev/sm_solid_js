@@ -1,5 +1,6 @@
 import extractProductCategories from "./extractProductCategories";
-import { Product, ProductCategory } from "../types";
+import { ProductCategory } from "../types";
+import Product from "./domain/Product";
 import calculateCategoryPrice from "./calculateCategoryPrice";
 
 export function calculateTotalPricePerCategory(

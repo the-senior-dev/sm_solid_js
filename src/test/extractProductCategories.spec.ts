@@ -1,4 +1,5 @@
-import { Product, ProductCategory } from "../types";
+import { ProductCategory } from "../types";
+import Product from "../priceModule/domain/Product";
 import extractProductCategories from "../priceModule/extractProductCategories";
 
 describe("extractProductCategories", () => {
@@ -21,7 +22,6 @@ describe("extractProductCategories", () => {
         currency: "USD",
       }),
     ];
-
     const expected: Partial<Record<ProductCategory, number>> = {
       [ProductCategory.FOOD]: 0,
       [ProductCategory.DRINK]: 0,
