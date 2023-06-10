@@ -337,21 +337,25 @@ export class GiftProduct extends Product {
 #### Solution #1  
 In our case, becasuse we use `TypeScript` we ensure that at least from the shape perspective the children classes will comply with the `interface` of the `parent class`. However we can stil break `LSP` with behaivour, like throwing `exceptions`. To avoid it we need to:
 
-1. Avoid throwing `errors` in `child classes` that `parent classes` do not throw. In this class case we can just return 0 instead:
+1. Avoid throwing `errors` in `child classes` that `parent classes` do not throw. In this class case we can just return 0 instead. In [GiftProduct](src/priceModule/domain/GiftProduct.ts):
 ```typescript
-export class GiftProduct extends Product {
+import Product from "./Product";
+
+export default class GiftProduct extends Product {
   private isTaxable = false;
 
   calculateTotalPriceWithTax(taxRate: number): number {
+    // Behaves like the parent class ✅✅✅
     // Rather than throw an error, just ignore the tax for gift products
     if (this.isTaxable) {
       return super.calculateTotalPriceWithTax(taxRate);
     } else {
       // If the product is not taxable, return the total price without tax
-      return this.calculateTotalPrice();
+      return this.calculateTotalPrice(); // 🎉 Test Passed! 🎉
     }
   }
 }
+
 ```
   
 #### Solution #2  
