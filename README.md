@@ -36,13 +36,13 @@ or "code should **depend on higher-level concepts rather than specific implement
 
 ## Tasks:
 
-1. [ ] 1. Apply the **Single Responsability Principle** to split the code in [src/calculateTotalPricePerCategory.ts](/src/calculateTotalPricePerCategory.ts) into `modules` that will evolve independently.
+1. [ ] 1. Apply the **Single Responsibility Principle** to split the code in [src/calculateTotalPricePerCategory.ts](/src/calculateTotalPricePerCategory.ts) into `modules` that will evolve independently.
 
 2. [ ] 2. Apply the **Open/Closed Principle** to allow developers to add new `discount` rules without modifying the `calculateDiscount` function.
 
-3. [ ] 3. Apply **Liskov Substitution** to the `Product` class and it's childred.
+3. [ ] 3. Apply **Liskov Substitution** to the `Product` class and its children.
 
-4. [ ] 4. Apply **Interface Segregation** to the `Product` class in order to avoid unecesarry coupling.
+4. [ ] 4. Apply **Interface Segregation** to the `Product` class in order to avoid unnecessary coupling.
 
 5. [ ] 5. Make code more reusable and reduce `coupling` by applying **DependencyInversion** to our `Product Class`.
 
@@ -92,7 +92,7 @@ You should see this in your terminal:
 
 #### TASK 1 - Single Responsibility Principle
 
-Apply the **Single Responsability Principle** to split the code in [src/calculateTotalPricePerCategory.ts](/src/calculateTotalPricePerCategory.ts) into `functions/modules` that can change and evolve independently.
+Apply the **Single Responsibility Principle** to split the code in [src/calculateTotalPricePerCategory.ts](/src/calculateTotalPricePerCategory.ts) into `functions/modules` that can change and evolve independently.
 
 > "A class should have only one reason to change" - Clean Code
 
@@ -125,7 +125,7 @@ Advantages of the new structure:
 
 ### Solution:
 
-- **🧪 Solution Code: `git checkout feature/single-responsability-principle`**
+- **🧪 Solution Code: `git checkout feature/single-responsibility-principle`**
 
 </details>
 
@@ -136,7 +136,7 @@ Advantages of the new structure:
 
 #### TASK 2 - Open/Closed Principle
 
-Before we start, checkout on the solution branch from the previous exercise or follow on your own code if you ended up with a similar structure:
+Before we start, checkout on the solution branch from the previous exercise or follow your own code if you ended up with a similar structure:
 
 ```bash
 git checkout task_two_open_closed_start
@@ -239,7 +239,7 @@ export default function calculateDiscount(product: Product) {
 }
 ```
 
-###### We can now extend the `calculateDiscount` behaivour without changing the `caculateDiscoutBasedOnRules` function - so we can say the function is `Open for extension` and at the same time `Closed for modification`.
+###### We can now extend the `calculateDiscount` behavior without changing the `caculateDiscoutBasedOnRules` function - so we can say the function is `Open for extension` and at the same time `Closed for modification`.
 
 ### Solution:
 
@@ -258,32 +258,32 @@ export default function calculateDiscount(product: Product) {
 
 To illustrate this we will use `classes` for our products and move the relevant logic to class methods.
 
-1. Before we start, checkout on the following branch:
+1. Before we start, check out the following branch:
 
 ```bash
 git checkout liskow_substitution_principle_start
 ```
-  
-2. Run the tests so see the violation of the `LSP`:
+
+2. Run the tests to see the violation of the `LSP`:
+
 ```bash
 npm test
 ```
 
 You should see something like this:
 ![liskov-test](docs/task_3/tests_liskov.png)
-  
-  
+
 #### ⚠️ Violation of **Liskov Substitution**:
 
 > `GiftProduct` cannot be used in the code instead of its parent class(super object) because it will result in errors thrown when the `calculateTotalPriceWithTax` method is called.
 
 3. Fix the violation of `LSP`. We can do this in two different ways:
 
-  - make sure the child does not break any behaivour of the parent
-  - prefer **Composition over Inheritance** to keep `inheritance chains` small
-    
-Before we head to the solution, go to [src/priceModule/domain](src/priceModule/domain) and checkout our new `classes`:
-  
+- make sure the child does not break any behavior of the parent
+- prefer **Composition over Inheritance** to keep `inheritance chains` small
+
+Before we head to the solution, go to [src/priceModule/domain](src/priceModule/domain) and check out our new `classes`:
+
 ```typescript
 // Product Class
 export class Product {
@@ -320,7 +320,8 @@ export class Product {
 }
 ```
 
-And an example of a `class` that inherits from `Product`, the `GiftProduct`:
+And an example of a `class` that inherits from `Product`, is the `GiftProduct`:
+
 ```typescript
 // GIFT PRODUCT cannot be used in place of Product
 export class GiftProduct extends Product {
@@ -334,10 +335,12 @@ export class GiftProduct extends Product {
 
 ### Solving the `LSP` violation:
 
-#### Solution #1  
-In our case, becasuse we use `TypeScript` we ensure that at least from the shape perspective the children classes will comply with the `interface` of the `parent class`. However we can stil break `LSP` with behaivour, like throwing `exceptions`. To avoid it we need to:
+#### Solution #1
 
-1. Avoid throwing `errors` in `child classes` that `parent classes` do not throw. In this class case we can just return 0 instead. In [GiftProduct](src/priceModule/domain/GiftProduct.ts):
+In our case, because we use `TypeScript` we ensure that at least from the shape perspective the children's classes will comply with the `interface` of the `parent class`. However, we can still break `LSP` with behavior, like throwing `exceptions`. To avoid it we need to:
+
+1. Avoid throwing `errors` in `child classes` that `parent classes` do not throw. In this class case, we can just return 0 instead. In [GiftProduct](src/priceModule/domain/GiftProduct.ts):
+
 ```typescript
 import Product from "./Product";
 
@@ -355,19 +358,20 @@ export default class GiftProduct extends Product {
     }
   }
 }
-
 ```
-  
-##### Branch for Solution #1 
+
+##### Branch for Solution #1
+
 ```bash
 git checkout liskow_substitution_principle_solution_one
 ```
-  
-#### Solution #2  
+
+#### Solution #2
+
 2. Prefer **Composition Over Inheritance** - this is something frameworks like `React` adopted to avoid problems that come from having long inheritance chains(like the violation of `LSP`).
 
-Instead of inheriting the tax application behaivour, we will add it to our objects at build time. We will use an extra building block to encapsulate the tax logic. In the `domain` folder, create a new file, `TaxStrategy`:
-  
+Instead of inheriting the tax application behavior, we will add it to our objects at build time. We will use an extra building block to encapsulate the tax logic. In the `domain` folder, create a new file, `TaxStrategy`:
+
 ```typescript
 import { TAX_RATE } from "../config";
 
@@ -432,8 +436,8 @@ export default class Product {
 }
 ```
 
-// We can create new variations of `Product` with **Composition** rather then inheriting from the parent class. In [GiftProduct.ts](src/priceModule/domain/GiftProduct.ts) remove the class and add:
-  
+NOTE: We can create new variations of `Product` with **Composition** rather than inheriting from the parent class. In [GiftProduct.ts](src/priceModule/domain/GiftProduct.ts) remove the class and add:
+
 ```typescript
 import { ProductCategory } from "../../types";
 import Product from "./Product";
@@ -457,29 +461,29 @@ const giftProduct = new Product(
   { amount: 100, currency: "USD" },
   new NonTaxableStrategy()
 );
-
 ```
 
-###### ❗❗ We will have to update all our test because the way we build the `Product` class changed. ❗❗
+###### ❗❗ We will have to update all our tests because the way we build the `Product` class changed. ❗❗
 
-You can try that yourself or checkout our solution:
-```bash
-git checkout liskow_substitution_principle_solution_two  
-```
-  
-Feel free to implement any of the solutions above. We recommend you try this in any codebase you are working with to make sure you fixate the concept.
+You can try that yourself or check out our solution:
 
- > In modern JavaScript frameworks like `React` or `Vue`, the principle of **composition over inheritance** is widely embraced. This approach promotes building components by composing smaller, reusable pieces of functionality rather than relying heavily on class inheritance hierarchies. By favoring composition, these frameworks offer flexibility, reusability, simplification, and separation of concerns. 
-`Components` are created by combining smaller components together, allowing for modular and scalable designs. `React` and `Vue` exemplify this principle through their component-based architectures, declarative syntax, and support for reusable building blocks.
-  
-#### Solution #2 branch
 ```bash
 git checkout liskow_substitution_principle_solution_two
 ```
-  
+
+Feel free to implement any of the solutions above. We recommend you try this in any codebase you are working with to make sure you fixate on the concept.
+
+> In modern JavaScript frameworks like `React` or `Vue`, the principle of **composition over inheritance** is widely embraced. This approach promotes building components by composing smaller, reusable pieces of functionality rather than relying heavily on class inheritance hierarchies. By favoring composition, these frameworks offer flexibility, reusability, simplification, and separation of concerns.
+> `Components` are created by combining smaller components together, allowing for modular and scalable designs. `React` and `Vue` exemplify this principle through their component-based architectures, declarative syntax, and support for reusable building blocks.
+
+#### Solution #2 branch
+
+```bash
+git checkout liskow_substitution_principle_solution_two
+```
+
 NOTE: Run the tests to make sure you fixed the `LSP` violation.
-  
-  
+
 </details>
 
 ---
@@ -537,16 +541,15 @@ export default class Product {
     return this.calculateTotalPrice() + tax;
   }
 }
-
 ```
 
-Whoever wants information about the `Product` also ends up consuming the `quantiy` property, which is only relevant for certain usecases. If we just want to display a list of products or an individual product, the `quantity` is irelevant.
+Whoever wants information about the `Product` also ends up consuming the `quantity` property, which is only relevant for certain use-cases. If we just want to display a list of products or an individual product, the `quantity` is irrelevant.
 
-##### Apllied Interface Segregation Principle
+##### Applied Interface Segregation Principle
 
-If we apply the `Interface Segregation Principle` we will end up with smaller classes that deal with specific behaivours.
+If we apply the `Interface Segregation Principle` we will end up with smaller classes that deal with specific behaviors.
 
-> :bell: **Reminder**: Every `class` in `TypeScript` inherently defines an `interface`. This `interface` includes all the public members of the class - properties, methods, etc. This makes TypeScript's class mechanics and type system very flexible and powerful, because you can use these implicit interfaces in type annotations just like explicit interfaces. Keep in mind, however, that this only applies to the public side of the class structure. If you have private or protected members in your class, they won't be part of the implicit interface.
+> :bell: **Reminder**: Every `class` in `TypeScript` inherently defines an `interface`. This `interface` includes all the public members of the class - properties, methods, etc. This makes TypeScript's class mechanics and type system very flexible and powerful because you can use these implicit interfaces in type annotations just like explicit interfaces. Keep in mind, however, that this only applies to the public side of the class structure. If you have private or protected members in your class, they won't be part of the implicit interface.
 
 ![applied-interface-segragation](docs/task_4/interface_segregation.png)
 
@@ -574,7 +577,6 @@ export default class Product {
     this.price = price;
   }
 }
-
 ```
 
 We move all the `quantity` and `price` calculations to the `CartItem` class:
@@ -603,8 +605,9 @@ export class CartItem {
   }
 }
 ```
-  
+
 And we encapsulate the `Price` in its own class:
+
 ```typescript
 export default class ProductPrice {
   public amount: number;
@@ -617,14 +620,14 @@ export default class ProductPrice {
 }
 ```
 
-❗❗ The changes introduce will break the app and the tests. Make sure you refactor everything to make the tests pass. You can check our solution here:
+❗❗ The changes introduced will break the app and the tests. Make sure you refactor everything to make the tests pass. You can check our solution here:
+
 ```bash
 git checkout interface_segregation_solution
 ```
-  
-> :bulb: **Note for future**: The `CartItem` class might implement future behaivour like `calculateShippingCosts` without poluting the `ProductInterface`. In this way, the users of these classes get exacttly what they need, not more, nor less.
 
-  
+> :bulb: **Note for future**: The `CartItem` class might implement future behavior like `calculateShippingCosts` without polluting the `ProductInterface`. In this way, the users of these classes get exactly what they need, not more, nor less.
+
 ### Solution:
 
 - **🧪 Solution Code: `git checkout feature/interface-segregation`**
@@ -644,12 +647,12 @@ In simpler terms, the DIP suggests that software components (classes, modules, f
 
 This allows for better decoupling of software components, making the system more modular and enabling easier changes and maintenance. The dependencies between components are inverted compared to a traditional top-down or bottom-up design where high-level modules directly depend on low-level modules.
 
-📝 Before we start, checkout on the following branch:
+📝 Before we start, check out on the following branch:
 
 ```bash
 git checkout dependency_inversion_start
 ```
-  
+
 We can apply **Dependency Inversion** to many parts of our code, a good example is our `CartItem` class.
 
 ```typescript
@@ -675,10 +678,9 @@ export class CartItem {
     return this.calculateTotalPrice() + tax;
   }
 }
-
 ```
 
-Above you can see, there is a direct dependecy between `CartItem` and `Product`. If the `Product` class implementation changes, there is a high probability that we will also have to change the `CartItem` class. This is also called `tight coupling`.
+Above you can see, there is a direct dependency between `CartItem` and `Product`. If the `Product` class implementation changes, there is a high probability that we will also have to change the `CartItem` class. This is also called `tight coupling`.
 
 ![direct-dependecy](/docs/task_5/direct_dependecy.png)
 
@@ -704,7 +706,8 @@ Our concrete classes: `Product` and `CartItem` will depend on the `ProductCatego
 import ProductCategory from "./ProductCategory";
 import ProductPrice from "./ProductPrice";
 
-export default interface ProductInterface { // A Generic Abstraction of Product
+export default interface ProductInterface {
+  // A Generic Abstraction of Product
   id: number;
   name: string;
   category: ProductCategory;
@@ -740,6 +743,7 @@ export default class Product implements ProductInterface {
 ```
 
 Our new `CartItem.ts` does not depend on a concrete implementation but rather on the abstraction(in this case an `interface`):
+
 ```typescript
 import ProductInterface from "./ProductInterface";
 import { TaxStrategy } from "./TaxStrategy";
@@ -768,9 +772,11 @@ export class CartItem {
   }
 }
 ```
+
 ![inverted-dependecy](/docs/task_5/inverted_dependency.png)
 
 #### Solution Branch
+
 ```bash
 git checkout dependency_inversion_solution
 ```
@@ -789,7 +795,7 @@ How would you do that?
 git checkout dependency_inversion_solution
 ```
 
-We can provide the type of the category at runtime by using `Generics`. This is also called `DependencyInjection` and can be applied to function, classes and modules.
+We can provide the type of the category at runtime by using `Generics`. This is also called `DependencyInjection` and can be applied to functions, classes, and modules.
 
 ```typescript
 interface AbstractProductInterface<ProdCat> {
@@ -805,14 +811,15 @@ interface AbstractProductInterface<ProdCat> {
 // Concrete Version of the AbstractProductInterface using the standard ProductCategory
 export default ProductInterface = AbstractProductInterface<ProductCategory>;
 ```
-  
-Bonus Solution 
+
+Bonus Solution
 
 #### Solution Branch
+
 ```bash
 git checkout dependency_inversion_solution_bonus
 ```
- 
+
 </details>
 
 </details>
