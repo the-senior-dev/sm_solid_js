@@ -358,7 +358,7 @@ export default class GiftProduct extends Product {
 
 ```
   
-#### Solution #1 branch
+##### Branch for Solution #1 
 ```bash
 git checkout liskow_substitution_principle_solution_one
 ```
