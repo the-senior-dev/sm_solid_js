@@ -498,7 +498,10 @@ To make this principle simple you can say:
 This principle is a bit abstract but we can easily understand it with our `Product` class:
 
 ```typescript
-export class Product {
+import ProductCategory from "./ProductCategory";
+import { TaxStrategy } from "./TaxStrategy";
+
+export default class Product {
   public id: number;
   public name: string;
   public category: ProductCategory;
@@ -507,32 +510,43 @@ export class Product {
     amount: number;
     currency: string;
   };
+  private taxStrategy: TaxStrategy;
 
   constructor(
     id: number,
     name: string,
     category: ProductCategory,
     quantity: number,
-    price: { amount: number; currency: string }
+    price: { amount: number; currency: string },
+    taxStrategy: TaxStrategy
   ) {
     this.id = id;
     this.name = name;
     this.category = category;
     this.quantity = quantity;
     this.price = price;
+    this.taxStrategy = taxStrategy;
   }
 
-  ...
+  calculateTotalPrice(): number {
+    return this.price.amount * this.quantity;
+  }
+
+  calculateTotalPriceWithTax(): number {
+    const tax = this.taxStrategy.calculateTax(this.calculateTotalPrice());
+    return this.calculateTotalPrice() + tax;
+  }
 }
+
 ```
 
-Whoever wants information about the `Product` also ends up consuming the `quantiy` property, which is only relevant for certain usecase. If we just want to display a list of products or an individual product, the `quantity` is irelevant.
+Whoever wants information about the `Product` also ends up consuming the `quantiy` property, which is only relevant for certain usecases. If we just want to display a list of products or an individual product, the `quantity` is irelevant.
 
 ##### Apllied Interface Segregation Principle
 
 If we apply the `Interface Segregation Principle` we will end up with smaller classes that deal with specific behaivours.
 
-> :bell: **Reminder**: Every class in TypeScript inherently defines an interface. This interface includes all the public members of the class - properties, methods, etc. This makes TypeScript's class mechanics and type system very flexible and powerful, because you can use these implicit interfaces in type annotations just like explicit interfaces. Keep in mind, however, that this only applies to the public side of the class structure. If you have private or protected members in your class, they won't be part of the implicit interface.
+> :bell: **Reminder**: Every `class` in `TypeScript` inherently defines an `interface`. This `interface` includes all the public members of the class - properties, methods, etc. This makes TypeScript's class mechanics and type system very flexible and powerful, because you can use these implicit interfaces in type annotations just like explicit interfaces. Keep in mind, however, that this only applies to the public side of the class structure. If you have private or protected members in your class, they won't be part of the implicit interface.
 
 ![applied-interface-segragation](docs/task_4/interface_segregation.png)
 
