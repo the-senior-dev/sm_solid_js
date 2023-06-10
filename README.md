@@ -437,6 +437,9 @@ const giftProduct = new Product(
 
 You can implement any of the solutions above. We recommend you try this in any codebase you are working with to make sure you fixate the concept.
 
+ > In modern JavaScript frameworks like `React` or `Vue`, the principle of **composition over inheritance** is widely embraced. This approach promotes building components by composing smaller, reusable pieces of functionality rather than relying heavily on class inheritance hierarchies. By favoring composition, these frameworks offer flexibility, reusability, simplification, and separation of concerns. 
+`Components` are created by combining smaller components together, allowing for modular and scalable designs. `React` and `Vue` exemplify this principle through their component-based architectures, declarative syntax, and support for reusable building blocks.
+  
 </details>
 
 ---
