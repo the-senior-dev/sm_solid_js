@@ -463,11 +463,9 @@ const giftProduct = new Product(
 ###### ❗❗ We will have to update all our test because the way we build the `Product` class changed. ❗❗
 
 You can try that yourself or checkout our solution:
-bash```
+```bash
 git checkout liskow_substitution_principle_solution_two  
-```  
-
----
+```
   
 Feel free to implement any of the solutions above. We recommend you try this in any codebase you are working with to make sure you fixate the concept.
 
