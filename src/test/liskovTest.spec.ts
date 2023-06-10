@@ -1,4 +1,4 @@
-import { ProductCategory } from "../types";
+import ProductCategory from "../priceModule/domain/ProductCategory";
 import Product from "../priceModule/domain/Product";
 import {
   StandardTaxStrategy,

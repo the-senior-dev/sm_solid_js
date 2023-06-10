@@ -4,7 +4,7 @@ import {
   StandardTaxStrategy,
 } from "../priceModule/domain/TaxStrategy";
 import extractProductCategories from "../priceModule/extractProductCategories";
-import { ProductCategory } from "../types";
+import ProductCategory from "../priceModule/domain/ProductCategory";
 
 describe("extractProductCategories", () => {
   test("returns an object with unique categories", () => {

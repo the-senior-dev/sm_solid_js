@@ -1,107 +1,121 @@
-import { ProductCategory } from "./types";
 import Product from "./priceModule/domain/Product";
+import ProductCategory from "./priceModule/domain/ProductCategory";
+import {
+  NonTaxableStrategy,
+  StandardTaxStrategy,
+} from "./priceModule/domain/TaxStrategy";
 
 const list: Product[] = [
-  {
-    id: 1,
-    name: "Milk",
-    price: {
+  new Product(
+    1,
+    "Milk",
+    ProductCategory.FOOD,
+    10,
+    {
       amount: 1.07,
       currency: "EUR",
     },
-    category: ProductCategory.FOOD,
-    quantity: 10,
-  },
-  {
-    id: 2,
-    name: "Bread",
-    price: {
+    new NonTaxableStrategy()
+  ),
+  new Product(
+    2,
+    "Bread",
+    ProductCategory.FOOD,
+    5,
+    {
       amount: 2.5,
       currency: "EUR",
     },
-    category: ProductCategory.FOOD,
-    quantity: 5,
-  },
-  {
-    id: 3,
-    name: "Apples",
-    price: {
+    new NonTaxableStrategy()
+  ),
+  new Product(
+    3,
+    "Apples",
+    ProductCategory.FOOD,
+    8,
+    {
       amount: 0.5,
       currency: "EUR",
     },
-    category: ProductCategory.FOOD,
-    quantity: 8,
-  },
-  {
-    id: 4,
-    name: "Toothpaste",
-    price: {
+    new NonTaxableStrategy()
+  ),
+  new Product(
+    4,
+    "Toothpaste",
+    ProductCategory.BEAUTY,
+    3,
+    {
       amount: 3.99,
       currency: "EUR",
     },
-    category: ProductCategory.BEAUTY,
-    quantity: 3,
-  },
-  {
-    id: 5,
-    name: "Shampoo",
-    price: {
+    new StandardTaxStrategy()
+  ),
+  new Product(
+    5,
+    "Shampoo",
+    ProductCategory.BEAUTY,
+    2,
+    {
       amount: 5.99,
       currency: "EUR",
     },
-    category: ProductCategory.BEAUTY,
-    quantity: 2,
-  },
-  {
-    id: 6,
-    name: "T-shirt",
-    price: {
+    new StandardTaxStrategy()
+  ),
+  new Product(
+    6,
+    "T-shirt",
+    ProductCategory.CLOTHING,
+    7,
+    {
       amount: 9.99,
       currency: "EUR",
     },
-    category: ProductCategory.CLOTHING,
-    quantity: 7,
-  },
-  {
-    id: 7,
-    name: "Jeans",
-    price: {
+    new StandardTaxStrategy()
+  ),
+  new Product(
+    7,
+    "Jeans",
+    ProductCategory.CLOTHING,
+    4,
+    {
       amount: 39.99,
       currency: "EUR",
     },
-    category: ProductCategory.CLOTHING,
-    quantity: 4,
-  },
-  {
-    id: 8,
-    name: "Laptop",
-    price: {
+    new StandardTaxStrategy()
+  ),
+  new Product(
+    8,
+    "Laptop",
+    ProductCategory.ELECTRONICS,
+    1,
+    {
       amount: 999.99,
       currency: "EUR",
     },
-    category: ProductCategory.ELECTRONICS,
-    quantity: 1,
-  },
-  {
-    id: 9,
-    name: "Headphones",
-    price: {
+    new StandardTaxStrategy()
+  ),
+  new Product(
+    9,
+    "Headphones",
+    ProductCategory.ELECTRONICS,
+    6,
+    {
       amount: 49.99,
       currency: "EUR",
     },
-    category: ProductCategory.ELECTRONICS,
-    quantity: 6,
-  },
-  {
-    id: 10,
-    name: "Book",
-    price: {
+    new StandardTaxStrategy()
+  ),
+  new Product(
+    10,
+    "Book",
+    ProductCategory.OTHER,
+    12,
+    {
       amount: 14.99,
       currency: "EUR",
     },
-    category: ProductCategory.OTHER,
-    quantity: 12,
-  },
+    new NonTaxableStrategy()
+  ),
 ];
 
 export default list;

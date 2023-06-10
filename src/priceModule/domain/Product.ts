@@ -1,4 +1,4 @@
-import { ProductCategory } from "../../types";
+import ProductCategory from "./ProductCategory";
 import { TaxStrategy } from "./TaxStrategy";
 
 export default class Product {

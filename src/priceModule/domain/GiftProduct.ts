@@ -1,4 +1,4 @@
-import { ProductCategory } from "../../types";
+import ProductCategory from "./ProductCategory";
 import Product from "./Product";
 import { NonTaxableStrategy, StandardTaxStrategy } from "./TaxStrategy";
 

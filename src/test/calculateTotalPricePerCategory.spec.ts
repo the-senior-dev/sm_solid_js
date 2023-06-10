@@ -4,7 +4,7 @@ import {
   NonTaxableStrategy,
   StandardTaxStrategy,
 } from "../priceModule/domain/TaxStrategy";
-import { ProductCategory } from "../types";
+import ProductCategory from "../priceModule/domain/ProductCategory";
 
 describe("calculateTotalPricePerCategory", () => {
   it("should return an empty object when the productList is empty", () => {
