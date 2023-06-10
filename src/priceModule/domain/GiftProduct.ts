@@ -1,9 +1,22 @@
+import { ProductCategory } from "../../types";
 import Product from "./Product";
+import { NonTaxableStrategy, StandardTaxStrategy } from "./TaxStrategy";
 
-export default class GiftProduct extends Product {
-  private isTaxable = true;
-  calculateTotalPriceWithTax(taxRate: number): number {
-    // violation of LSP
-    throw new Error("Gift products are not taxable");
-  }
-}
+// Composition Over Inheritance
+const regularProduct = new Product(
+  1,
+  "Regular Product",
+  ProductCategory.FOOD,
+  2,
+  { amount: 100, currency: "USD" },
+  new StandardTaxStrategy()
+);
+
+const giftProduct = new Product(
+  2,
+  "Gift Product",
+  ProductCategory.FOOD,
+  2,
+  { amount: 100, currency: "USD" },
+  new NonTaxableStrategy()
+);
