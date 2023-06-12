@@ -44,7 +44,7 @@ or "code should **depend on higher-level concepts rather than specific implement
 
 4. [ ] 4. Apply **Interface Segregation** to the `Product` class in order to avoid unnecessary coupling.
 
-5. [ ] 5. Make code more reusable and reduce `coupling` by applying **DependencyInversion** to our `Product Class`.
+5. [ ] 5. Make code more reusable and reduce `coupling` by applying **Dependency Inversion** to our `Product Class`.
 
 ---
 
