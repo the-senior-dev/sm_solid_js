@@ -5,95 +5,93 @@ import {
   StandardTaxStrategy,
 } from "../priceModule/domain/TaxStrategy";
 import ProductCategory from "../priceModule/domain/ProductCategory";
+import { CartItem } from "../priceModule/domain/CartItem";
+import Price from "../priceModule/domain/ProductPrice";
 
 describe("calculateTotalPricePerCategory", () => {
   it("should return an empty object when the productList is empty", () => {
-    const productList: Product[] = [];
+    const cartItemList: CartItem[] = [];
 
-    const result = calculateTotalPricePerCategory(productList);
+    const result = calculateTotalPricePerCategory(cartItemList);
 
     expect(result).toEqual({});
   });
 
   it("should return correct total price for each category when product quantity is less than 1", () => {
-    const productList: Product[] = [
-      new Product(
-        1,
-        "product1",
-        ProductCategory.ELECTRONICS,
+    const cartItemList: CartItem[] = [
+      new CartItem(
+        new Product(
+          1,
+          "product1",
+          ProductCategory.ELECTRONICS,
+          new Price(100, "USD")
+        ),
         0,
-        {
-          amount: 100,
-          currency: "USD",
-        },
         new StandardTaxStrategy()
       ),
     ];
 
-    const result = calculateTotalPricePerCategory(productList);
+    const result = calculateTotalPricePerCategory(cartItemList);
 
     expect(result).toEqual({ [ProductCategory.ELECTRONICS]: 0 });
   });
 
   it("should return correct total price for each category when product quantity is between 1 and 5", () => {
-    const productList: Product[] = [
-      new Product(
-        2,
-        "product2",
-        ProductCategory.ELECTRONICS,
+    const cartItemList: CartItem[] = [
+      new CartItem(
+        new Product(
+          2,
+          "product2",
+          ProductCategory.ELECTRONICS,
+          new Price(100, "USD")
+        ),
         3,
-        {
-          amount: 100,
-          currency: "USD",
-        },
         new StandardTaxStrategy()
       ),
     ];
 
-    const result = calculateTotalPricePerCategory(productList);
+    const result = calculateTotalPricePerCategory(cartItemList);
 
-    expect(result).toEqual({ [ProductCategory.ELECTRONICS]: 357 }); // Updated value considering the tax.
+    expect(result).toEqual({ [ProductCategory.ELECTRONICS]: 357 }); // 300 + 57 for tax
   });
 
   it("should return correct total price for each category when product quantity is between 6 and 10", () => {
-    const productList: Product[] = [
-      new Product(
-        3,
-        "product3",
-        ProductCategory.ELECTRONICS,
+    const cartItemList: CartItem[] = [
+      new CartItem(
+        new Product(
+          3,
+          "product3",
+          ProductCategory.ELECTRONICS,
+          new Price(100, "USD")
+        ),
         7,
-        {
-          amount: 100,
-          currency: "USD",
-        },
         new StandardTaxStrategy()
       ),
     ];
 
-    const result = calculateTotalPricePerCategory(productList);
+    const result = calculateTotalPricePerCategory(cartItemList);
 
-    expect(result).toEqual({ [ProductCategory.ELECTRONICS]: 791.35 }); // Updated value considering the tax.
+    expect(result).toEqual({ [ProductCategory.ELECTRONICS]: 833 }); // 700 + 133 for tax
   });
 
   it("should return correct total price for each category when product quantity is more than 10", () => {
-    const productList: Product[] = [
-      new Product(
-        4,
-        "product4",
-        ProductCategory.ELECTRONICS,
+    const cartItemList: CartItem[] = [
+      new CartItem(
+        new Product(
+          4,
+          "product4",
+          ProductCategory.ELECTRONICS,
+          new Price(100, "USD")
+        ),
         15,
-        {
-          amount: 100,
-          currency: "USD",
-        },
         new StandardTaxStrategy()
       ),
     ];
 
-    const result = calculateTotalPricePerCategory(productList);
+    const result = calculateTotalPricePerCategory(cartItemList);
 
     expect(result).toEqual({
-      [ProductCategory.ELECTRONICS]: 1606.5000000000002,
-    }); // Updated value considering the tax.
+      [ProductCategory.ELECTRONICS]: 1785,
+    }); // 1500 + 285 for tax
   });
 });

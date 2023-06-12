@@ -1,13 +1,13 @@
-import Product from "./domain/Product";
+import { CartItem } from "./domain/CartItem";
 
-export default function extractProductCategories(productList: Product[]) {
-  return productList.reduce((acc, product) => {
-    if (product.category in acc) {
+export default function extractProductCategories(cartItemList: CartItem[]) {
+  return cartItemList.reduce((acc, item) => {
+    if (item.product.category in acc) {
       return acc;
     } else {
       return {
         ...acc,
-        [product.category]: 0,
+        [item.product.category]: 0,
       };
     }
   }, {});

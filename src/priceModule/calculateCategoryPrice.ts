@@ -1,14 +1,14 @@
 import ProductCategory from "./domain/ProductCategory";
 import Product from "./domain/Product";
-import calculateProductPrice from "./calculateProductPrice";
+import { CartItem } from "./domain/CartItem";
 
 export default function calculateCategoryPrice(
-  productList: Product[],
+  itemList: CartItem[],
   category: ProductCategory
 ) {
-  return productList.reduce((acc, product) => {
-    if (product.category === category) {
-      const totalPrice = calculateProductPrice(product);
+  return itemList.reduce((acc, item) => {
+    if (item.product.category === category) {
+      const totalPrice = item.calculateTotalPriceWithTax();
       return acc + totalPrice;
     } else {
       return acc;

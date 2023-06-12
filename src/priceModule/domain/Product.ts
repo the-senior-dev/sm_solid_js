@@ -1,39 +1,21 @@
 import ProductCategory from "./ProductCategory";
-import { TaxStrategy } from "./TaxStrategy";
+import Price from "./ProductPrice";
 
 export default class Product {
   public id: number;
   public name: string;
   public category: ProductCategory;
-  public quantity: number;
-  public price: {
-    amount: number;
-    currency: string;
-  };
-  private taxStrategy: TaxStrategy;
+  public price: Price;
 
   constructor(
     id: number,
     name: string,
     category: ProductCategory,
-    quantity: number,
-    price: { amount: number; currency: string },
-    taxStrategy: TaxStrategy
+    price: Price
   ) {
     this.id = id;
     this.name = name;
     this.category = category;
-    this.quantity = quantity;
     this.price = price;
-    this.taxStrategy = taxStrategy;
-  }
-
-  calculateTotalPrice(): number {
-    return this.price.amount * this.quantity;
-  }
-
-  calculateTotalPriceWithTax(): number {
-    const tax = this.taxStrategy.calculateTax(this.calculateTotalPrice());
-    return this.calculateTotalPrice() + tax;
   }
 }
