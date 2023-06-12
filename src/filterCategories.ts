@@ -1,4 +1,4 @@
-import { Product } from "./types";
+import Product from "./priceModule/domain/Product";
 
 export default function filterCategories(productList: Product[]) {
   return productList.reduce((acc, product) => {
