@@ -44,7 +44,7 @@ or "code should **depend on higher-level concepts rather than specific implement
 
 4. [ ] 4. Apply **Interface Segregation** to the `Product` class in order to avoid unnecessary coupling.
 
-5. [ ] 5. Make code more reusable and reduce `coupling` by applying **DependencyInversion** to our `Product Class`.
+5. [ ] 5. Make code more reusable and reduce `coupling` by applying **Dependency Inversion** to our `Product Class`.
 
 ---
 
@@ -125,7 +125,8 @@ Advantages of the new structure:
 
 ### Solution:
 
-- **🧪 Solution Code: `git checkout feature/single-responsibility-principle`**
+- **💊 Solution Code: `git checkout single_responsibility_principle_solution`**
+- **🎥 Solution Video: [Click Here For The Video Solution](https://www.loom.com/share/8809526da2324c9ca997d9d34e873b31)**
 
 </details>
 
@@ -244,6 +245,7 @@ export default function calculateDiscount(product: Product) {
 ### Solution:
 
 - **🧪 Solution Code: `git checkout task_two_open_closed_end`**
+- **🎥 Solution Video: [Click Here For The Video Solution](https://www.loom.com/share/da8e4c4c61624812aa01734ad674da5e)**
 
 </details>
 
@@ -360,11 +362,10 @@ export default class GiftProduct extends Product {
 }
 ```
 
-##### Branch for Solution #1
+##### Solution #1
 
-```bash
-git checkout liskow_substitution_principle_solution_one
-```
+- **🧪 Solution Code: `git checkout liskow_substitution_principle_solution_one`**
+- **🎥 Solution Video: [Click Here For The Video Solution](https://www.loom.com/share/a98c98203ad44a77873c5c72d977bc2b)**
 
 #### Solution #2
 
@@ -476,13 +477,12 @@ Feel free to implement any of the solutions above. We recommend you try this in 
 > In modern JavaScript frameworks like `React` or `Vue`, the principle of **composition over inheritance** is widely embraced. This approach promotes building components by composing smaller, reusable pieces of functionality rather than relying heavily on class inheritance hierarchies. By favoring composition, these frameworks offer flexibility, reusability, simplification, and separation of concerns.
 > `Components` are created by combining smaller components together, allowing for modular and scalable designs. `React` and `Vue` exemplify this principle through their component-based architectures, declarative syntax, and support for reusable building blocks.
 
-#### Solution #2 branch
+#### Solution #2 - Composition Over Inheritance
 
-```bash
-git checkout liskow_substitution_principle_solution_two
-```
+- **🧪 Solution Code: `git checkout liskow_substitution_principle_solution_two`**
+- **🎥 Solution Video: [Click Here For The Video Solution](https://www.loom.com/share/f20a1bea331646399f847bfac9d2066f)**
 
-NOTE: Run the tests to make sure you fixed the `LSP` violation.
+📝 NOTE: Run the tests to make sure you fixed the `LSP` violation.
 
 </details>
 
@@ -498,6 +498,12 @@ NOTE: Run the tests to make sure you fixed the `LSP` violation.
 To make this principle simple you can say:
 
 > "Aa class should not be forced to implement interfaces it doesn't use. Instead of one big interface, many small interfaces are preferred based on groups of methods, each one serving one submodule."
+
+1. Before we start, check out the following branch:
+
+```bash
+git checkout interface_segregation_start
+```
 
 This principle is a bit abstract but we can easily understand it with our `Product` class:
 
@@ -551,7 +557,7 @@ If we apply the `Interface Segregation Principle` we will end up with smaller cl
 
 > :bell: **Reminder**: Every `class` in `TypeScript` inherently defines an `interface`. This `interface` includes all the public members of the class - properties, methods, etc. This makes TypeScript's class mechanics and type system very flexible and powerful because you can use these implicit interfaces in type annotations just like explicit interfaces. Keep in mind, however, that this only applies to the public side of the class structure. If you have private or protected members in your class, they won't be part of the implicit interface.
 
-![applied-interface-segragation](docs/task_4/interface_segregation.png)
+![applied-interface-segregation](docs/task_4/interface_segregation.png)
 
 Our new `Product` class will only be concerned with information about the product:
 
@@ -606,7 +612,7 @@ export class CartItem {
 }
 ```
 
-And we encapsulate the `Price` in its own class:
+And we encapsulate the `Price` in a new `class`:
 
 ```typescript
 export default class ProductPrice {
@@ -620,17 +626,14 @@ export default class ProductPrice {
 }
 ```
 
-❗❗ The changes introduced will break the app and the tests. Make sure you refactor everything to make the tests pass. You can check our solution here:
-
-```bash
-git checkout interface_segregation_solution
-```
-
 > :bulb: **Note for future**: The `CartItem` class might implement future behavior like `calculateShippingCosts` without polluting the `ProductInterface`. In this way, the users of these classes get exactly what they need, not more, nor less.
 
 ### Solution:
 
-- **🧪 Solution Code: `git checkout feature/interface-segregation`**
+- **🧪 Solution Code: `git checkout interface_segregation_solution`**
+- **🎥 Solution Video: [Click Here For The Video Solution](https://www.loom.com/share/79495ef07a7f4961b670d3eaf97e4f1c)**
+
+❗❗ The changes introduced will break the app and the `tests` will fail. Make sure you refactor everything to make the tests pass.
 
 </details>
 
@@ -647,7 +650,7 @@ In simpler terms, the DIP suggests that software components (classes, modules, f
 
 This allows for better decoupling of software components, making the system more modular and enabling easier changes and maintenance. The dependencies between components are inverted compared to a traditional top-down or bottom-up design where high-level modules directly depend on low-level modules.
 
-📝 Before we start, check out on the following branch:
+📝 Before we start, check out the following `branch`:
 
 ```bash
 git checkout dependency_inversion_start
@@ -680,11 +683,11 @@ export class CartItem {
 }
 ```
 
-Above you can see, there is a direct dependency between `CartItem` and `Product`. If the `Product` class implementation changes, there is a high probability that we will also have to change the `CartItem` class. This is also called `tight coupling`.
+As you can see, there is a direct dependency between `CartItem` and `Product`. If the `Product` class implementation changes, there is a high probability that we will also have to change the `CartItem` class. This is also called `tight coupling`.
 
-![direct-dependecy](/docs/task_5/direct_dependecy.png)
+![direct-dependency](/docs/task_5/direct_dependecy.png)
 
-To make the code more reusable we can instead move this dependecy to an interface, let's call that the `ProductIterface`.
+To make the code more reusable we can instead move this dependency to an interface, let's call that the `ProductIterface`.
 
 ```typescript
 import { ProductCategory } from "../types";
@@ -773,13 +776,12 @@ export class CartItem {
 }
 ```
 
-![inverted-dependecy](/docs/task_5/inverted_dependency.png)
+![inverted-dependency](/docs/task_5/inverted_dependency.png)
 
-#### Solution Branch
+### Solution:
 
-```bash
-git checkout dependency_inversion_solution
-```
+- **🧪 Solution Code: `git checkout dependency_inversion_solution`**
+- **🎥 Solution Video: [Click Here For The Video Solution](https://www.loom.com/share/d756ca6803e24920956d156dad4ccb0b)**
 
 #### BONUS
 
@@ -788,14 +790,14 @@ We can go even further and apply the **Dependency Inversion Principle** to the `
 How would you do that?
 
 <details closed>
-<summary>CLICK ME! - BONUS SOLUTIOM</summary>
+<summary>CLICK ME! - BONUS SOLUTION</summary>
   
 #### Starting point
 ```bash
 git checkout dependency_inversion_solution
 ```
 
-We can provide the type of the category at runtime by using `Generics`. This is also called `DependencyInjection` and can be applied to functions, classes, and modules.
+We can provide the type of `ProductCategory` at runtime by using `Generics`. This is also called `Dependency Injection` and can be applied to functions, classes, and modules.
 
 ```typescript
 interface AbstractProductInterface<ProdCat> {
@@ -812,13 +814,10 @@ interface AbstractProductInterface<ProdCat> {
 export default ProductInterface = AbstractProductInterface<ProductCategory>;
 ```
 
-Bonus Solution
+### Solution for BONUS:
 
-#### Solution Branch
-
-```bash
-git checkout dependency_inversion_solution_bonus
-```
+- **🧪 Solution Code: `checkout dependency_inversion_solution_bonus`**
+- **🎥 Solution Video: [Click Here For The Video Solution](https://www.loom.com/share/e1191aa80d414daeb4e79b6abcaed4d6)**
 
 </details>
 
