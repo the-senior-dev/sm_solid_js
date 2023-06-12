@@ -1,12 +1,13 @@
+import ProductCategory from "./ProductCategory";
 import ProductInterface from "./ProductInterface";
 import { TaxStrategy } from "./TaxStrategy";
 
 export class CartItem {
-  public product: ProductInterface;
+  public product: ProductInterface<ProductCategory>;
   public quantity: number;
   public taxStrategy: TaxStrategy;
   constructor(
-    product: ProductInterface,
+    product: ProductInterface<ProductCategory>,
     quantity: number,
     taxStrategy: TaxStrategy
   ) {
