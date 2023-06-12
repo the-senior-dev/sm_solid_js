@@ -790,7 +790,7 @@ We can go even further and apply the **Dependency Inversion Principle** to the `
 How would you do that?
 
 <details closed>
-<summary>CLICK ME! - BONUS SOLUTIOM</summary>
+<summary>CLICK ME! - BONUS SOLUTION</summary>
   
 #### Starting point
 ```bash
