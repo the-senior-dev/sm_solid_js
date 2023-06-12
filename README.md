@@ -125,7 +125,7 @@ Advantages of the new structure:
 
 ### Solution:
 
-- **💊 Solution Code: `git checkout feature/single-responsibility-principle`**
+- **💊 Solution Code: `git checkout single_responsibility_principle_solution`**
 - **🎥 Solution Video: [Click Here For The Video Solution](https://www.loom.com/share/8809526da2324c9ca997d9d34e873b31)**
 
 </details>
