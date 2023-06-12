@@ -1,17 +1,31 @@
 import { Product } from "../types";
+import { DISCOUNT_RULES } from "./config";
 
-// SOURCE OF CHANGE: We want to add a new discount rule
-export default function calculateDiscout(product: Product) {
-  let discount = 0;
-  if (product.quantity > 10) {
-    // 10% discount if we buy more than 10
-    discount = 0.1;
-  } else if (product.quantity > 5) {
-    // 5% discount if we buy more than 5
-    discount = 0.05;
-  } else if (product.quantity > 1) {
-    // 0% discount if we buy more than 1
-    discount = 0;
+interface DiscountRule {
+  quantity: number;
+  discount: number;
+}
+
+// The rules array is passed as an argument to the calculateDiscount function
+function calculateDiscountBasedOnRules(
+  product: Product,
+  rules: DiscountRule[]
+) {
+  // Sort rules by quantity in descending order
+  const sortedRules = [...rules].sort((a, b) => b.quantity - a.quantity);
+
+  for (let rule of sortedRules) {
+    if (product.quantity > rule.quantity) {
+      // Apply the first matching rule
+      return rule.discount;
+    }
   }
-  return discount;
+
+  // No rule matched, return 0
+  return 0;
+}
+
+// we use a higher-order function to pass the rules array to the calculateDiscount function
+export default function calculateDiscount(product: Product) {
+  return calculateDiscountBasedOnRules(product, DISCOUNT_RULES);
 }
