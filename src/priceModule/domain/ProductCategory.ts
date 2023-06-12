@@ -1,4 +1,4 @@
-export enum ProductCategory {
+enum ProductCategory {
   FOOD = "FOOD",
   DRINK = "DRINK",
   ELECTRONICS = "ELECTRONICS",
@@ -6,3 +6,5 @@ export enum ProductCategory {
   CLOTHING = "CLOTHING",
   OTHER = "OTHER",
 }
+
+export default ProductCategory;

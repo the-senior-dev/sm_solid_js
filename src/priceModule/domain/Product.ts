@@ -1,4 +1,5 @@
-import { ProductCategory } from "../../types";
+import ProductCategory from "./ProductCategory";
+import { TaxStrategy } from "./TaxStrategy";
 
 export default class Product {
   public id: number;
@@ -9,26 +10,30 @@ export default class Product {
     amount: number;
     currency: string;
   };
+  private taxStrategy: TaxStrategy;
 
   constructor(
     id: number,
     name: string,
     category: ProductCategory,
     quantity: number,
-    price: { amount: number; currency: string }
+    price: { amount: number; currency: string },
+    taxStrategy: TaxStrategy
   ) {
     this.id = id;
     this.name = name;
     this.category = category;
     this.quantity = quantity;
     this.price = price;
+    this.taxStrategy = taxStrategy;
   }
 
   calculateTotalPrice(): number {
     return this.price.amount * this.quantity;
   }
 
-  calculateTotalPriceWithTax(taxRate: number): number {
-    return this.calculateTotalPrice() * (1 + taxRate);
+  calculateTotalPriceWithTax(): number {
+    const tax = this.taxStrategy.calculateTax(this.calculateTotalPrice());
+    return this.calculateTotalPrice() + tax;
   }
 }

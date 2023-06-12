@@ -1,4 +1,4 @@
-import { ProductCategory } from "../types";
+import ProductCategory from "./domain/ProductCategory";
 import Product from "./domain/Product";
 import calculateProductPrice from "./calculateProductPrice";
 

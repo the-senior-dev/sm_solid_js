@@ -1,29 +1,36 @@
-import { ProductCategory } from "../types";
-import GiftProduct from "../priceModule/domain/GiftProduct";
+import ProductCategory from "../priceModule/domain/ProductCategory";
 import Product from "../priceModule/domain/Product";
+import {
+  StandardTaxStrategy,
+  NonTaxableStrategy,
+} from "../priceModule/domain/TaxStrategy";
 
 describe("Liskov Substitution Principle", () => {
   it("should violate the Liskov Substitution Principle", () => {
-    const taxRate = 0.2; // 20% tax rate
+    const taxStrategy = new StandardTaxStrategy();
 
-    const product = new Product(1, "Regular Product", ProductCategory.FOOD, 2, {
-      amount: 100,
-      currency: "USD",
-    });
+    const product = new Product(
+      1,
+      "Regular Product",
+      ProductCategory.FOOD,
+      2,
+      { amount: 100, currency: "USD" },
+      taxStrategy
+    );
 
-    const giftProduct = new GiftProduct(
+    const giftTaxStrategy = new NonTaxableStrategy();
+
+    const giftProduct = new Product(
       2,
       "Gift Product",
       ProductCategory.FOOD,
       2,
-      {
-        amount: 100,
-        currency: "USD",
-      }
+      { amount: 100, currency: "USD" },
+      giftTaxStrategy
     );
 
     // LSP Violation: The Two Classes are not substitutable
-    expect(() => product.calculateTotalPriceWithTax(taxRate)).not.toThrow(); // This will pass
-    expect(() => giftProduct.calculateTotalPriceWithTax(taxRate)).not.toThrow(); // This will fail, as a violation of LSP
+    expect(() => product.calculateTotalPriceWithTax()).not.toThrow(); // This will pass
+    expect(() => giftProduct.calculateTotalPriceWithTax()).not.toThrow(); // This will fail, as a violation of LSP
   });
 });
